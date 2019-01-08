@@ -1,0 +1,20 @@
+<div class="car-list-container">
+  <app-car-details
+    class="car-details"
+    *ngFor="let car of carsList; let i=index"
+    [car]="car"
+    [carIndex]="i"
+    (removed)="onCarRemove($event)"
+    (detailsEdit)="onCarDetailsEdit($event)"></app-car-details>
+  <div class="clear-both"></div>
+
+  <app-error *ngIf="!carsList.length"></app-error>
+
+  <div class="button-container">
+    <button
+    mat-raised-button
+    color="accent"
+    type="button"
+    (click)="openCarAddDialog()">Add New</button>
+  </div>
+</div>

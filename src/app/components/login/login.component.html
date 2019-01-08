@@ -1,0 +1,43 @@
+<mat-card class="login-form-container">
+  <mat-card-title class="form-heading">Enter Login Details:</mat-card-title>
+  <mat-card-content>
+    <form
+      action=""
+      class="login-form"
+      [formGroup]="loginForm"
+      (submit)="login()">
+      <mat-form-field class="full-width">
+        <input type="text" matInput placeholder="Username" formControlName="username" />
+        <mat-error>{{ getErrorMsg(username.errors) }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input type="password" matInput placeholder="Password" formControlName="password" />
+        <mat-error>{{ getErrorMsg(password.errors) }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-select placeholder="Role" formControlName="role">
+          <mat-option [value]="role" *ngFor="let role of roles">{{ role }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-card-actions>
+        <div class="button-container">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="this.loginForm.invalid">
+              {{ this.loginForm.value.role === 'Admin' ? 'Login' : 'Continue as Guest' }}
+            </button>
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="resetData()">Reset</button>
+        </div>
+      </mat-card-actions>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,14 @@
+.error {
+  background: lightsalmon;
+  color: red;
+  margin: 20px 8px;
+  padding-bottom: 25px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .details-title {
+    font-size: 18px;
+  }
+}

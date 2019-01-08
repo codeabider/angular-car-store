@@ -1,0 +1,63 @@
+<form
+  action=""
+  class="car-details-form"
+  [formGroup]="carDetailsForm"
+  (submit)="updateData()"
+  *ngIf="!carData?.remove; else deleteModal">
+  <h3 mat-dialog-title>
+    {{ carData ? 'Edit' : 'Add'}} details for {{ carData ? carData.brand + ' ' + carData.modelName : 'New Car'}}
+  </h3>
+  <mat-form-field class="full-width">
+    <input type="text" matInput placeholder="Car Brand" formControlName="brand" />
+    <mat-error>{{ getErrorMsg(brand.errors) }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input type="text" matInput placeholder="Model" formControlName="modelName" />
+    <mat-error>{{ getErrorMsg(modelName.errors) }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input type="number" matInput placeholder="Year" formControlName="modelYear" />
+    <mat-error>{{ getErrorMsg(modelYear.errors) }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input type="text" matInput placeholder="Type" formControlName="type" />
+    <mat-error>{{ getErrorMsg(type.errors) }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input type="number" matInput placeholder="Engine Capacity" formControlName="engineCapacity" />
+    <mat-error>{{ getErrorMsg(engineCapacity.errors) }}</mat-error>
+  </mat-form-field>
+
+  <!-- <mat-form-field class="full-width">
+    <input type="text" matInput placeholder="Color" formControlName="color" />
+    <mat-error>{{ getErrorMsg(engineCapacity.errors) }}</mat-error>
+  </mat-form-field> -->
+
+  <mat-form-field class="full-width">
+    <mat-select placeholder="Transmission" formControlName="transmission">
+      <mat-option [value]="transmission" *ngFor="let transmission of transmissionType">{{ transmission }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="button-container" mat-dialog-actions>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="this.carDetailsForm.invalid">{{ carData ? 'Done' : 'Add' }}</button>
+    <button mat-raised-button color="warn" type="button" (click)="resetData()">Reset</button>
+    <button mat-button color="primary" type="button" (click)="resetData('fillDefault')" *ngIf="!carData">Autofill</button>
+  </div>
+</form>
+
+<ng-template #deleteModal>
+  <h1 mat-dialog-title>Are you sure?</h1>
+  <div mat-dialog-actions>
+    <button mat-button color="primary" (click)="onNoClick(true)">Yes</button>
+    <button mat-button color="warn" (click)="onNoClick(false)">No</button>
+  </div>
+</ng-template>

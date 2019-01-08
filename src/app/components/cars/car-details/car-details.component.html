@@ -1,0 +1,63 @@
+<mat-card class="car-details-card" *ngIf="car; else noData">
+  <mat-card-title class="details-title">{{ car.brand }} {{ car.modelName }}</mat-card-title>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item class="details-list-item">
+        <span class="text-bold">Year:&nbsp;</span>
+        <span>{{ car.modelYear }}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="details-list-item">
+        <span class="text-bold">Type:&nbsp;</span>
+        <span>{{ car.type }}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="details-list-item">
+        <span class="text-bold">Engine Capacity:&nbsp;</span>
+        <span>{{ car.engineCapacity }}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="details-list-item">
+        <span class="text-bold">Colors:&nbsp;</span>
+        <span *ngFor="let color of car.colors">{{ color | uppercase }}&nbsp;|&nbsp;</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="details-list-item">
+        <span class="text-bold">Transmission:&nbsp;</span>
+        <span>{{ car.transmission }}</span>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="button-container">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        *ngIf="!isRouted"
+        (click)="showCarDetails()">Details</button>
+      <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        *ngIf="!isRouted"
+        (click)="openCarEditDialog()">Edit</button>
+      <button
+        mat-raised-button
+        color="warn"
+        type="button"
+        *ngIf="!isRouted"
+        (click)="openCarRemoveDialog()">Delete</button>
+      <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        *ngIf="isRouted"
+        (click)="goBack()">Back to Home</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
+
+<ng-template #noData>
+  <app-error></app-error>
+</ng-template>

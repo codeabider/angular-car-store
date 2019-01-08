@@ -1,0 +1,22 @@
+.car-details-card {
+  background: #ddd;
+  margin: 8px;
+  padding-bottom: 25px;
+
+  .details-title {
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .details-list-item {
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+.button-container {
+  button {
+    margin: 0 6px;
+  }
+}
