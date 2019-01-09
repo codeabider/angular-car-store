@@ -33,3 +33,12 @@ body {
   border: 1px dotted red;
   font-size: 18px;
 }
+
+.color-preview {
+  display: inline-block;
+  border: 1px dotted black;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  margin: 0 5px;
+}

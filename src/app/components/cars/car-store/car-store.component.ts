@@ -11,13 +11,16 @@ import { OperationDialogComponent } from '../operation-dialog/operation-dialog.c
 })
 export class CarStoreComponent implements OnInit {
   carsList: Car[];
+  filteredCarsList: Car[];
 
   constructor(
     private _carsService: CarListService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog) {
+    }
 
   ngOnInit() {
     this.carsList = this._carsService.getCars();
+    this.filteredCarsList = this.carsList;
   }
 
   // add new car
@@ -29,21 +32,40 @@ export class CarStoreComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: Car) => {
       if (result) {
         this.carsList.push(result);
-        // this._carsService.postCar(result);
+        this.filteredCarsList = [...this.carsList];
+        // post change to service for each CRUD
+
+        console.log('added: ', result);
       }
     });
   }
 
   // remove a car
-  onCarRemove(carToRemoveObj: any): void {
-    this.carsList.splice(carToRemoveObj.index, 1);
-    console.log('removed: ', carToRemoveObj);
+  onCarRemove(carToRemove: Car): void {
+    const carToRemoveIndex = this.carsList.map(car => car.id === carToRemove.id).indexOf(true);
+
+    this.carsList.splice(carToRemoveIndex, 1);
+    this.filteredCarsList = [...this.carsList];
+
+    console.log('removed: ', carToRemove);
   }
 
   // edit existing car
-  onCarDetailsEdit(carToEditObj: any): void {
-    this.carsList[carToEditObj.index] = carToEditObj.car;
-    // this._carsService.postCar(this.carsList[carToEditObj.index]);
-    console.log('editted: ', carToEditObj);
+  onCarDetailsEdit(carToEdit: Car): void {
+    const carToEditIndex = this.carsList.map(car => car.id === carToEdit.id).indexOf(true);
+
+    this.carsList[carToEditIndex] = carToEdit;
+    this.filteredCarsList = [...this.carsList];
+
+    console.log('editted: ', carToEdit);
+  }
+
+  onCarsFiltered(updatedCars: Car[]): void {
+    console.log(updatedCars);
+    if (updatedCars) {
+      this.filteredCarsList = updatedCars;
+    } else {
+      this.filteredCarsList = this.carsList;
+    }
   }
 }

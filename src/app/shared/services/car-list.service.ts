@@ -3,6 +3,7 @@ import { Car } from 'src/app/interface/car';
 
 const CARS = [
   {
+    id: 1,
     brand: 'Audi',
     modelName: '100',
     modelYear: 1984,
@@ -12,6 +13,7 @@ const CARS = [
     transmission: 'Manual'
   },
   {
+    id: 2,
     brand: 'Audi',
     modelName: '100 Avant',
     modelYear: 2011,
@@ -21,6 +23,7 @@ const CARS = [
     transmission: 'Manual'
   },
   {
+    id: 3,
     brand: 'Audi',
     modelName: '80 Cabrio',
     modelYear: 2018,
@@ -30,6 +33,7 @@ const CARS = [
     transmission: 'Manual'
   },
   {
+    id: 4,
     brand: 'Audi',
     modelName: 'A3 Cabriolet',
     modelYear: 1999,

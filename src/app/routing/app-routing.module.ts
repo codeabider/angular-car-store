@@ -4,6 +4,7 @@ import { CarDetailsComponent } from '../components/cars/car-details/car-details.
 import { CarStoreComponent } from '../components/cars/car-store/car-store.component';
 import { LoginComponent } from '../components/login/login.component';
 import { ErrorComponent } from '../components/error/error.component';
+import { AuthGuardService } from '../shared/services/guards/auth-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },

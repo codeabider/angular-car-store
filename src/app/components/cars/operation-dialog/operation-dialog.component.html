@@ -7,42 +7,64 @@
   <h3 mat-dialog-title>
     {{ carData ? 'Edit' : 'Add'}} details for {{ carData ? carData.brand + ' ' + carData.modelName : 'New Car'}}
   </h3>
-  <mat-form-field class="full-width">
-    <input type="text" matInput placeholder="Car Brand" formControlName="brand" />
-    <mat-error>{{ getErrorMsg(brand.errors) }}</mat-error>
-  </mat-form-field>
+  <div mat-dialog-content>
+    <mat-form-field class="full-width">
+      <input type="text" matInput placeholder="Car Brand" formControlName="brand" />
+      <mat-error>{{ getErrorMsg(brand.errors) }}</mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="full-width">
-    <input type="text" matInput placeholder="Model" formControlName="modelName" />
-    <mat-error>{{ getErrorMsg(modelName.errors) }}</mat-error>
-  </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="text" matInput placeholder="Model" formControlName="modelName" />
+      <mat-error>{{ getErrorMsg(modelName.errors) }}</mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="full-width">
-    <input type="number" matInput placeholder="Year" formControlName="modelYear" />
-    <mat-error>{{ getErrorMsg(modelYear.errors) }}</mat-error>
-  </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="number" matInput placeholder="Year" formControlName="modelYear" />
+      <mat-error>{{ getErrorMsg(modelYear.errors) }}</mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="full-width">
-    <input type="text" matInput placeholder="Type" formControlName="type" />
-    <mat-error>{{ getErrorMsg(type.errors) }}</mat-error>
-  </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="text" matInput placeholder="Type" formControlName="type" />
+      <mat-error>{{ getErrorMsg(type.errors) }}</mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="full-width">
-    <input type="number" matInput placeholder="Engine Capacity" formControlName="engineCapacity" />
-    <mat-error>{{ getErrorMsg(engineCapacity.errors) }}</mat-error>
-  </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="number" matInput placeholder="Engine Capacity" formControlName="engineCapacity" />
+      <mat-error>{{ getErrorMsg(engineCapacity.errors) }}</mat-error>
+    </mat-form-field>
 
-  <!-- <mat-form-field class="full-width">
-    <input type="text" matInput placeholder="Color" formControlName="color" />
-    <mat-error>{{ getErrorMsg(engineCapacity.errors) }}</mat-error>
-  </mat-form-field> -->
+    <div *ngFor="let colorField of colors.controls; let i = index; let last = last;">
+      <mat-form-field
+        formArrayName="colors"
+        class="full-width dynamic-field"        >
+        <input type="text" matInput placeholder="Color" [formControlName]="i"/>
+        <span
+          class="color-preview"
+          [style.backgroundColor]="colorField.value"></span>
+      </mat-form-field>
+      <button
+        mat-mini-fab
+        color="warn"
+        class="text-bold"
+        (click)="removeColor(i)"
+        *ngIf="i < colors.controls.length - 1; else addColorButton"
+        type="button">-</button>
+      </div>
+      <ng-template #addColorButton>
+        <button
+          mat-mini-fab
+          color="accent"
+          class="text-bold"
+          (click)="addColor()"
+          type="button">+</button>
+      </ng-template>
 
-  <mat-form-field class="full-width">
-    <mat-select placeholder="Transmission" formControlName="transmission">
-      <mat-option [value]="transmission" *ngFor="let transmission of transmissionType">{{ transmission }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
+    <mat-form-field class="full-width">
+      <mat-select placeholder="Transmission" formControlName="transmission">
+        <mat-option [value]="transmission" *ngFor="let transmission of transmissionType">{{ transmission }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div class="button-container" mat-dialog-actions>
     <button
       mat-raised-button
@@ -61,3 +83,5 @@
     <button mat-button color="warn" (click)="onNoClick(false)">No</button>
   </div>
 </ng-template>
+
+<!-- note: mat-dialog-content is required to make modal scrollable -->

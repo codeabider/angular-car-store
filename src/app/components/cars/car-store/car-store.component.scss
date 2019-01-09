@@ -1,5 +1,9 @@
 .car-list-container {
   margin: 16px 0;
+
+  .car-filter {
+    margin: 10px;
+  }
 }
 
 .button-container {
@@ -8,6 +12,16 @@
 
 @media only screen and (min-width: 767px) {
   .car-list-container {
+    display: flex;
+    justify-content: space-between;
+
+    .car-filter {
+      width: 20%;
+      margin-left: 0;
+    }
+    .car-list {
+      width: 80%;
+    }
     .car-details {
       float: left;
       width: 50%;

@@ -11,6 +11,7 @@ import { CarStoreComponent } from './components/cars/car-store/car-store.compone
 import { CarDetailsComponent } from './components/cars/car-details/car-details.component';
 import { OperationDialogComponent } from './components/cars/operation-dialog/operation-dialog.component';
 import { ErrorComponent } from './components/error/error.component';
+import { FilterCarsComponent } from './components/cars/filter-cars/filter-cars.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ErrorComponent } from './components/error/error.component';
     CarStoreComponent,
     CarDetailsComponent,
     OperationDialogComponent,
-    ErrorComponent
+    ErrorComponent,
+    FilterCarsComponent
   ],
   imports: [
     BrowserModule,

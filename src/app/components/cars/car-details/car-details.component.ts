@@ -42,10 +42,7 @@ export class CarDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.removed.emit({
-          'car': this.car,
-          'index': this.carIndex
-        });
+        this.removed.emit(this.car);
       }
     });
   }
@@ -58,10 +55,7 @@ export class CarDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: Car) => {
       if (result) {
-        this.detailsEdit.emit({
-          'car': result,
-          'index': this.carIndex
-        });
+        this.detailsEdit.emit(result);
       }
     });
   }

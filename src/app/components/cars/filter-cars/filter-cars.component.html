@@ -1,0 +1,10 @@
+<div class="filter">
+  <mat-form-field class="full-width">
+    <input type="text" matInput placeholder="Search" name="search" value="" [(ngModel)]="searchString"/>
+  </mat-form-field>
+
+  <div class="button-container">
+    <button mat-button type="button" color="primary" (click)="applyFilter()">Apply</button>
+    <button mat-button type="button" color="warn" (click)="clearFilter()">Clear</button>
+  </div>
+</div>

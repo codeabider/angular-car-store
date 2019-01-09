@@ -11,7 +11,8 @@ import {
   MatInputModule,
   MatListModule,
   MatDividerModule,
-  MatDialogModule
+  MatDialogModule,
+  MatTreeModule
 } from '@angular/material';
 
 @NgModule({
@@ -20,6 +21,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatTreeModule,
     MatCardModule,
     MatListModule,
     MatDividerModule,

@@ -19,7 +19,10 @@
       <mat-divider></mat-divider>
       <mat-list-item class="details-list-item">
         <span class="text-bold">Colors:&nbsp;</span>
-        <span *ngFor="let color of car.colors">{{ color | uppercase }}&nbsp;|&nbsp;</span>
+        <span
+          *ngFor="let color of car.colors"
+          class="color-preview"
+          [style.backgroundColor]="color"></span>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item class="details-list-item">

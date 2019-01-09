@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationService {
   adminObj: any;
+  loggedIn = false;
 
   constructor(private _router: Router) {
     this.adminObj = {
@@ -26,11 +27,11 @@ export class AuthenticationService {
     this._router.navigate(['/login']);
   }
 
-  isLoggedIn(): any {
-    if (localStorage.getItem('authObj')) {
-      return JSON.parse(localStorage.getItem('authObj')).loggedIn;
-    }
-  }
+  // isLoggedIn(): any {
+  //   if (localStorage.getItem('authObj')) {
+  //     return JSON.parse(localStorage.getItem('authObj')).loggedIn;
+  //   }
+  // }
 
   checkAuthenticity(userObj: any): void {
     const authObj = JSON.parse(localStorage.getItem('authObj'));
@@ -42,7 +43,12 @@ export class AuthenticationService {
       // this.login();
       // localStorage.setItem('authObj', JSON.stringify(this.adminObj));
       // console.log(this.adminObj);
+      this.loggedIn = true;
       this._router.navigate(['/home']);
     }
+  }
+
+  isAuthenticated(): boolean {
+    return this.loggedIn;
   }
 }
