@@ -54,20 +54,20 @@
         mat-raised-button
         color="accent"
         type="button"
-        *ngIf="!isRouted"
+        *ngIf="isAdmin"
         (click)="openCarEditDialog()">Edit</button>
       <button
         mat-raised-button
         color="warn"
         type="button"
-        *ngIf="!isRouted"
+        *ngIf="!isRouted && isAdmin"
         (click)="openCarRemoveDialog()">Delete</button>
       <button
         mat-raised-button
-        color="accent"
+        color="primary"
         type="button"
         *ngIf="isRouted"
-        (click)="goBack()">Back to Home</button>
+        (click)="goBack()">Back to Car Home</button>
     </div>
   </mat-card-actions>
 </mat-card>

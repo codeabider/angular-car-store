@@ -13,6 +13,7 @@
       *ngFor="let car of filteredCarsList; let i=index"
       [car]="car"
       [uniqueSpecs]="uniqueSpecs"
+      [isAdmin]="isAdmin"
       (removed)="onCarRemove($event)"
       (detailsEdit)="onCarDetailsEdit($event)"></app-car-details>
     <div class="clear-both"></div>
@@ -23,6 +24,7 @@
       <button
         mat-fab
         color="primary"
+        *ngIf="isAdmin"
         type="button"
         class="text-bold"
         (click)="openCarAddDialog()">&#43;</button>

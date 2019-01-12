@@ -26,11 +26,17 @@
         <div class="button-container">
           <button
             mat-raised-button
-            color="primary"
+            color="accent"
             type="submit"
             [disabled]="this.loginForm.invalid">
               {{ this.loginForm.value.role === 'Admin' ? 'Login' : 'Continue as Guest' }}
             </button>
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            [disabled]="this.loginForm.value.role === 'Admin'"
+            (click)="adminLogin()">Admin Login</button>
           <button
             mat-raised-button
             color="warn"

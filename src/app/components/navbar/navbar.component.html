@@ -6,6 +6,9 @@
       <span class="home-text">&#8828;/car-home&#8829;</span>
     </a>
     <a routerLink="/details" routerLinkActive="active-link" mat-button>About</a>
-    <a routerLink="/login" routerLinkActive="active-link" mat-button>Login</a>
+    <div class="flex-spacer"></div>
+    <span mat-button class="user-name text-bold" *ngIf="isLoggedIn">Welcome {{ userType }}</span>
+    <a routerLink="/login" routerLinkActive="active-link" mat-button *ngIf="!isLoggedIn">Login</a>
+    <a routerLink="/login" class="logout" routerLinkActive="active-link" mat-button *ngIf="isLoggedIn" (click)="logout()">Logout</a>
   </nav>
 </div>

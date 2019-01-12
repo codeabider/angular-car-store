@@ -1,3 +1,14 @@
-<mat-card class="error">
+<mat-card class="error" *ngIf="isLoggedIn; else aboutInfo">
   <mat-card-title class="details-title">Nothing to Show!!</mat-card-title>
 </mat-card>
+
+<ng-template #aboutInfo>
+  <mat-card class="error about-info">
+    <mat-card-title class="text-bold details-title">Welcome to The Car Store</mat-card-title>
+    <mat-card-content>
+      <p>Developed using Angular with Angular Material UI</p>
+      <p>Login with 'admin' at all fields to unlock admin rights! Enjoy...</p>
+      <p><span class="text-bold">Created By</span>: Harshdeep Bilaiya</p>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

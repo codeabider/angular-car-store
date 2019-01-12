@@ -15,9 +15,18 @@
     background: rgb(63, 81, 181);
   }
 
-  .active-link {
-    background: #ffd740;
-    color: brown;
+  .logout {
+    background: darkblue;
+  }
+
+  .flex-spacer {
+    flex-grow: 1;
+  }
+
+  .user-name {
+    color: #ffd740;
+    text-transform: capitalize;
+    margin: 0 12px 0 0;
   }
 
   .home {
@@ -31,5 +40,10 @@
       height: 30px;
       margin: 0 5px;
     }
+  }
+
+  .active-link {
+    background: #ffd740;
+    color: brown;
   }
 }

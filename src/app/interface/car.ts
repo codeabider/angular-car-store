@@ -35,3 +35,28 @@ export interface Car {
   type: string;
   year: number;
 }
+
+// filter categories
+export interface Filter {
+  searchString: string;
+  brand: Array<boolean>;
+  colors: Array<boolean>;
+  transmission: Array<boolean>;
+  type: Array<boolean>;
+}
+
+// unique car specs
+export interface CarSpecs {
+  brand: Array<string>;
+  colors: Array<string>;
+  transmission: Array<string>;
+  type: Array<string>;
+}
+
+// auth obj
+export interface Auth {
+  username: string;
+  password: string;
+  role: string;
+}
+

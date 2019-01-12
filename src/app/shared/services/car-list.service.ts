@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Car, TheCar } from '../../interface/car';
+import { Car, TheCar, CarSpecs } from '../../interface/car';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -51,7 +51,7 @@ export class CarListService {
     const uniqueTransmission = Array.from(new Set(allTransmission));
     const uniqueColors = Array.from(new Set(allColors));
 
-    const uniqueSpecs = {
+    const uniqueSpecs: CarSpecs = {
       brand: uniqueBrand,
       colors: uniqueColors,
       transmission: uniqueTransmission,

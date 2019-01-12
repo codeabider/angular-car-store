@@ -7,11 +7,28 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  // isLoggedIn = false;
+  isLoggedIn = false;
+  userType: string;
 
   constructor(private _authService: AuthenticationService) { }
 
   ngOnInit() {
-    // this.isLoggedIn = this._authService.isLoggedIn();
+    // console.log('nav init');
+
+    // local storage retrieval way
+    this.userType =  this._authService.getUserType();
+    this.isLoggedIn = this.userType ? true : false;
+
+    // observable return retrieval way
+    this._authService.isLoggedIn().subscribe(userType => {
+      this.userType = userType || this._authService.getUserType();
+      this.isLoggedIn = this.userType ? true : false;
+      // console.log('nav login observ: ', this.isLoggedIn);
+    });
+  }
+
+  logout() {
+    this._authService.logout();
+    console.log('logged out! adios...');
   }
 }

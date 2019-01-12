@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CarListService } from '../../../shared/services/car-list.service';
-import { Car, TheCar } from '../../../interface/car';
+import { Car, TheCar, CarSpecs } from '../../../interface/car';
 import { MatDialog } from '@angular/material';
 import { OperationDialogComponent } from '../operation-dialog/operation-dialog.component';
 import { FilterCarsComponent } from '../filter-cars/filter-cars.component';
+import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 
 @Component({
   selector: 'app-car-store',
@@ -16,16 +17,21 @@ export class CarStoreComponent implements OnInit {
   fetchedData: TheCar;
   carsList: Car[];
   filteredCarsList: Car[];
-  uniqueSpecs: any[];
+  uniqueSpecs: CarSpecs[];
+
+  isAdmin = false;
 
   isLiveSearchActive = true;
   isDataLoaded = false;
 
   constructor(
     private _carsService: CarListService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private _authService: AuthenticationService) { }
 
   ngOnInit() {
+    this.isAdmin = this._authService.getUserType() === 'admin' ? true : false;
+
     this._carsService.getJSON().subscribe((cars: TheCar) => {
       this.fetchedData = cars;
       this.carsList = this._carsService.getMappedObj(this.fetchedData);

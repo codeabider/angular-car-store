@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  roles: string[] = ['Guest', 'Admin'];
+  roles = ['Admin', 'Guest'];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
     private _router: Router) { }
 
   ngOnInit() {
+    this._authService.logout();
+
     this.loginForm = this._formBuilder.group({
       username: [''],
       password: [''],
@@ -51,14 +53,10 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    // console.log('login details: ', this.loginForm.value);
     // routing guard checks -> based on role dropdown
     this._authService.login();
-    this._authService.checkAuthenticity(this.loginForm.value);
-    // console.log('isAdmin? ', this._authService.checkAuthenticity(this.loginForm.value));
-    // if (this._authService.checkAuthenticity(this.loginForm.value)) {
-    //   this._router.navigate(['/home']);
-    // }
+    this._authService.grantUserAccess(this.loginForm.value); // check user type acc to entered form values
+    console.log('userType? ', this._authService.getUserType());
   }
 
   resetData(): void {
@@ -67,6 +65,15 @@ export class LoginComponent implements OnInit {
       password: '',
       role: 'Guest'
     });
+  }
+
+  adminLogin() {
+    this.loginForm.patchValue({
+      username: 'admin',
+      password: 'admin',
+      role: 'Admin'
+    });
+    this.login();
   }
 
   getErrorMsg(errors: any): any {
