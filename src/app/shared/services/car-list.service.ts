@@ -1,62 +1,82 @@
 import { Injectable } from '@angular/core';
-import { Car } from 'src/app/interface/car';
-
-const CARS = [
-  {
-    id: 1,
-    brand: 'Audi',
-    modelName: '100',
-    modelYear: 1984,
-    type: 'Sedan',
-    engineCapacity: 20,
-    colors: ['red', 'green', 'blue'],
-    transmission: 'Manual'
-  },
-  {
-    id: 2,
-    brand: 'Audi',
-    modelName: '100 Avant',
-    modelYear: 2011,
-    type: 'Hatchback',
-    engineCapacity: 20,
-    colors: ['red', 'green', 'blue'],
-    transmission: 'Manual'
-  },
-  {
-    id: 3,
-    brand: 'Audi',
-    modelName: '80 Cabrio',
-    modelYear: 2018,
-    type: 'SUV',
-    engineCapacity: 20,
-    colors: ['red', 'green', 'blue'],
-    transmission: 'Manual'
-  },
-  {
-    id: 4,
-    brand: 'Audi',
-    modelName: 'A3 Cabriolet',
-    modelYear: 1999,
-    type: 'Sedan',
-    engineCapacity: 20,
-    colors: ['red', 'green', 'blue'],
-    transmission: 'Manual'
-  }
-];
+import { Car, TheCar } from '../../interface/car';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarListService {
-  carsList: Car[] = CARS;
+  url = '../../../assets/data/future-cars.json';
 
-  constructor() { }
+  constructor(private _http: HttpClient) { }
 
-  getCars(): Car[] {
-    return this.carsList;
+  getJSON(): Observable<TheCar> {
+    return this._http.get<TheCar>(this.url);
   }
 
-  postCar(car: Car): void {
-    this.carsList.push(car);
+  getMappedObj(cars: TheCar, brandLimit = 2, modelLimit = 5): Car[] {  // model limit pending
+    const carsList: Car[] = [];
+    const brandList = cars['brands'].splice(20, brandLimit);
+
+    cars['models'].map((model) => {
+      brandList.map((brand) => {
+        if (brand.id === model.brandId) {
+          carsList.push({
+            id: model.id,
+            brand: brand.name,
+            model: model.name,
+            year: model.year,
+            type: model.type,
+            engineCapacity: model.engineCapacity,
+            colors: model.colors,
+            transmission: model.transmission,
+            imgSrc: model.imgSrc
+          });
+        }
+      });
+    });
+
+    return carsList;
   }
+
+  getUniqueSpecs(cars: Car[]): any {
+    const allBrand = cars.map(car => car.brand);
+    const allType = cars.map(car => car.type);
+    const allTransmission = cars.map(car => car.transmission);
+    const allColors = cars.map(car => car.colors).join().split(',');
+
+    const uniqueBrand = Array.from(new Set(allBrand));
+    const uniqueType = Array.from(new Set(allType));
+    const uniqueTransmission = Array.from(new Set(allTransmission));
+    const uniqueColors = Array.from(new Set(allColors));
+
+    const uniqueSpecs = {
+      brand: uniqueBrand,
+      colors: uniqueColors,
+      transmission: uniqueTransmission,
+      type: uniqueType
+    };
+
+    return uniqueSpecs;
+  }
+
+  // just for demo
+  // getData() {
+  //   const source =
+  //     from(this.getJSON())
+  //     .pipe(
+  //       map( ({ brands }) => brands )
+  //     );
+
+  //   source.subscribe(data => console.log('getData rxjs ops: ', data));
+  // }
+
+  // getCars(): Car[] {
+  //   return this.carsList;
+  // }
+
+  // postCar(car: Car): void {
+  //   this.carsList.push(car);
+  // }
 }

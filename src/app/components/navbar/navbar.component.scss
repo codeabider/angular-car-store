@@ -17,6 +17,19 @@
 
   .active-link {
     background: #ffd740;
-    color: #000;
+    color: brown;
+  }
+
+  .home {
+    padding: 0 12px;
+
+    .home-text {
+      font-size: 12px;
+    }
+
+    .home-icon {
+      height: 30px;
+      margin: 0 5px;
+    }
   }
 }

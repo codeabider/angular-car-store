@@ -1,6 +1,10 @@
-<div class="car-list-container">
+<div class="car-list-container" *ngIf="isDataLoaded; else loader">
   <div class="car-filter">
-    <app-filter-cars [allCars]="carsList" (filterCars)="onCarsFiltered($event)"></app-filter-cars>
+    <app-filter-cars
+      [allCars]="carsList"
+      [liveSearch]="isLiveSearchActive"
+      [uniqueSpecs]="uniqueSpecs"
+      (filterCars)="onCarsFiltered($event)"></app-filter-cars>
   </div>
 
   <div class="car-list">
@@ -8,19 +12,34 @@
       class="car-details"
       *ngFor="let car of filteredCarsList; let i=index"
       [car]="car"
-      [carIndex]="i"
+      [uniqueSpecs]="uniqueSpecs"
       (removed)="onCarRemove($event)"
       (detailsEdit)="onCarDetailsEdit($event)"></app-car-details>
     <div class="clear-both"></div>
 
-    <app-error *ngIf="!filteredCarsList.length"></app-error>
+    <app-error *ngIf="!filteredCarsList?.length"></app-error>
 
     <div class="button-container">
       <button
-        mat-raised-button
-        color="accent"
+        mat-fab
+        color="primary"
         type="button"
-        (click)="openCarAddDialog()">Add New</button>
+        class="text-bold"
+        (click)="openCarAddDialog()">&#43;</button>
     </div>
   </div>
+  <button
+    mat-fab
+    color="accent"
+    type="button"
+    class="goto-top-button text-bold"
+    *ngIf="isDataLoaded"
+    (click)="goToTop()">&#9757;</button>
 </div>
+
+<ng-template #loader>
+  <div class="loader">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</ng-template>
+

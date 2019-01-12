@@ -27,6 +27,18 @@ body {
   font-weight: bold;
 }
 
+.text-ellipses {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+button.goto-top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
 .no-data {
   text-align: center;
   color: red;
@@ -41,4 +53,13 @@ body {
   height: 15px;
   width: 15px;
   margin: 0 5px;
+}
+
+.loader {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -52px 0 0 -16px;
 }

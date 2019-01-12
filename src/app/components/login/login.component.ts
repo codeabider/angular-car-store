@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
-  login() {
+  login(): void {
     // console.log('login details: ', this.loginForm.value);
     // routing guard checks -> based on role dropdown
     this._authService.login();
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
     // }
   }
 
-  resetData() {
+  resetData(): void {
     this.loginForm.patchValue({
       username: '',
       password: '',
@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  getErrorMsg(errors: any) {
+  getErrorMsg(errors: any): any {
     if (errors) {
       return errors.required ? 'This field is required!' : '';
     }

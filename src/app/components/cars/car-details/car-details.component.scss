@@ -1,5 +1,5 @@
 .car-details-card {
-  background: #ddd;
+  background: rgba(63,81,181,.15);
   margin: 8px;
   padding-bottom: 25px;
 
@@ -12,6 +12,18 @@
   .details-list-item {
     height: 40px;
     font-size: 14px;
+  }
+
+  .car-image {
+    background-size: cover;
+    height: 25vh;
+    width: 100%;
+    margin: 12px 0 0px;
+  }
+
+  .standalone {
+    height: 50vh;
+    background-position: 0;
   }
 }
 

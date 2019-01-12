@@ -5,27 +5,28 @@
   (submit)="updateData()"
   *ngIf="!carData?.remove; else deleteModal">
   <h3 mat-dialog-title>
-    {{ carData ? 'Edit' : 'Add'}} details for {{ carData ? carData.brand + ' ' + carData.modelName : 'New Car'}}
+    {{ carData.car ? 'Edit' : 'Add'}} details for {{ carData.car ? carData.car.brand + ' ' + carData.car.model : 'New Car'}}
   </h3>
   <div mat-dialog-content>
-    <mat-form-field class="full-width">
-      <input type="text" matInput placeholder="Car Brand" formControlName="brand" />
+    <mat-form-field class="full-width" *ngIf="!carData.car">
+      <input type="text" matInput placeholder="Car Brand" formControlName="brand"/>
       <mat-error>{{ getErrorMsg(brand.errors) }}</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <input type="text" matInput placeholder="Model" formControlName="modelName" />
-      <mat-error>{{ getErrorMsg(modelName.errors) }}</mat-error>
+    <mat-form-field class="full-width" *ngIf="!carData.car">
+      <input type="text" matInput placeholder="Model" formControlName="model"/>
+      <mat-error>{{ getErrorMsg(model.errors) }}</mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <input type="number" matInput placeholder="Year" formControlName="modelYear" />
-      <mat-error>{{ getErrorMsg(modelYear.errors) }}</mat-error>
+      <input type="number" matInput placeholder="Year" formControlName="year" />
+      <mat-error>{{ getErrorMsg(year.errors) }}</mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <input type="text" matInput placeholder="Type" formControlName="type" />
-      <mat-error>{{ getErrorMsg(type.errors) }}</mat-error>
+      <mat-select placeholder="Type" formControlName="type">
+        <mat-option [value]="type" *ngFor="let type of carType">{{ type }}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field class="full-width">
@@ -48,7 +49,7 @@
         class="text-bold"
         (click)="removeColor(i)"
         *ngIf="i < colors.controls.length - 1; else addColorButton"
-        type="button">-</button>
+        type="button">&#8211;</button>
       </div>
       <ng-template #addColorButton>
         <button
@@ -56,7 +57,7 @@
           color="accent"
           class="text-bold"
           (click)="addColor()"
-          type="button">+</button>
+          type="button">&#43;</button>
       </ng-template>
 
     <mat-form-field class="full-width">
@@ -70,15 +71,15 @@
       mat-raised-button
       color="primary"
       type="submit"
-      [disabled]="this.carDetailsForm.invalid">{{ carData ? 'Done' : 'Add' }}</button>
+      [disabled]="this.carDetailsForm.invalid">{{ carData.car ? 'Done' : 'Add' }}</button>
     <button mat-raised-button color="warn" type="button" (click)="resetData()">Reset</button>
-    <button mat-button color="primary" type="button" (click)="resetData('fillDefault')" *ngIf="!carData">Autofill</button>
+    <button mat-button color="accent" type="button" (click)="resetData('fillDefault')" *ngIf="!carData.car">Autofill</button>
   </div>
 </form>
 
 <ng-template #deleteModal>
   <h1 mat-dialog-title>Are you sure?</h1>
-  <div mat-dialog-actions>
+  <div>
     <button mat-button color="primary" (click)="onNoClick(true)">Yes</button>
     <button mat-button color="warn" (click)="onNoClick(false)">No</button>
   </div>

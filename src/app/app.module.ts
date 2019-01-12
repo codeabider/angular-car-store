@@ -12,6 +12,7 @@ import { CarDetailsComponent } from './components/cars/car-details/car-details.c
 import { OperationDialogComponent } from './components/cars/operation-dialog/operation-dialog.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FilterCarsComponent } from './components/cars/filter-cars/filter-cars.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { FilterCarsComponent } from './components/cars/filter-cars/filter-cars.c
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     MaterialModule
   ],
   entryComponents: [OperationDialogComponent],

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Car } from '../../../interface/car';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
@@ -11,27 +11,45 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 export class OperationDialogComponent implements OnInit {
   carDetails: Car;
   carDetailsForm: FormGroup;
-  transmissionType: string[] = ['Manual', 'Auto', 'Hybrid'];
+
+  transmissionType: string[];
+  carType: string[];
+
+  snackMessage = {
+    success: {
+      message: 'Record updated Successfully!!!',
+      action: 'Cool'
+    },
+    remove: {
+      message: 'Deleted Permanantly!!!',
+      action: 'Cool'
+    }
+  };
 
   constructor(
     public dialogRef: MatDialogRef<OperationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public carData: any,
+    public snackBar: MatSnackBar,
     private _formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    const random = Math.ceil(50 + Math.random() * 100);
-    // console.log(this.carData);
-    if (!(this.carData && this.carData.remove)) {
+    console.log('------passed to Dialog------\n', this.carData);
+    if (!this.carData.remove) {
       this.carDetailsForm = this._formBuilder.group({
-        id: [this.carData ? this.carData.id : random],
-        brand: [this.carData ? this.carData.brand : '', Validators.required],
-        modelName: [this.carData ? this.carData.modelName : '', Validators.required],
-        modelYear: [this.carData ? this.carData.modelYear : 1900, Validators.required],
-        type: [this.carData ? this.carData.type : '', Validators.required],
-        engineCapacity: [this.carData ? this.carData.engineCapacity : 20, Validators.required],
-        transmission: [this.carData ? this.carData.transmission : '', Validators.required],
-        colors: this._formBuilder.array(this.carData ? this.carData.colors : [''])
+        id: [99],  // ops on basis of brand+model, just dending the constant id
+        brand: [this.carData.car ? this.carData.car.brand : '', Validators.required],
+        model: [this.carData.car ? this.carData.car.model : '', Validators.required],
+        year: [this.carData.car ? this.carData.car.year : 1900, Validators.required],
+        type: [this.carData.car ? this.carData.car.type : '', Validators.required],
+        engineCapacity: [this.carData.car ? this.carData.car.engineCapacity : 20, Validators.required],
+        transmission: [this.carData.car ? this.carData.car.transmission : '', Validators.required],
+        colors: this._formBuilder.array(this.carData.car ? this.carData.car.colors : [''])
       });
+
+      if (this.carData.uniqueSpecs) {
+        this.transmissionType = this.carData.uniqueSpecs['transmission'];
+        this.carType = this.carData.uniqueSpecs['type'];
+      }
     }
   }
 
@@ -39,12 +57,12 @@ export class OperationDialogComponent implements OnInit {
     return this.carDetailsForm.get('brand');
   }
 
-  get modelName() {
-    return this.carDetailsForm.get('modelName');
+  get model() {
+    return this.carDetailsForm.get('model');
   }
 
-  get modelYear() {
-    return this.carDetailsForm.get('modelYear');
+  get year() {
+    return this.carDetailsForm.get('year');
   }
 
   get type() {
@@ -67,7 +85,7 @@ export class OperationDialogComponent implements OnInit {
     this.colors.push(this._formBuilder.control(''));
   }
 
-  removeColor(index: number) {
+  removeColor(index: number): void {
     this.colors.removeAt(index);
   }
 
@@ -75,26 +93,36 @@ export class OperationDialogComponent implements OnInit {
     if (this.carData.remove) {
       this.dialogRef.close(action);
     }
+    if (action) {
+      this.showSuccessSnack(this.snackMessage.remove.message, this.snackMessage.remove.action);
+    }
   }
 
   updateData(): void {
     this.dialogRef.close(this.carDetailsForm.value);
+    this.showSuccessSnack(this.snackMessage.success.message, this.snackMessage.success.action);
   }
 
   resetData(fillDefault?: string): void {
     this.carDetailsForm.patchValue({
       brand: fillDefault ? 'BMW' : '',
-      modelName: fillDefault ? 'M6' : '',
-      modelYear: fillDefault ? 2016 : 1900,
+      model: fillDefault ? 'M6' : '',
+      year: fillDefault ? 2016 : 1900,
       type: fillDefault ? 'Sedan' : '',
       engineCapacity: fillDefault ? 25 : 20,
       transmission: fillDefault ? 'Auto' : ''
     });
   }
 
-  getErrorMsg(errors: any) {
+  getErrorMsg(errors: any): any {
     if (errors) {
       return errors.required ? 'This field is required!' : '';
     }
+  }
+
+  showSuccessSnack(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+    });
   }
 }

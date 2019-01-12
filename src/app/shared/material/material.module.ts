@@ -12,7 +12,10 @@ import {
   MatListModule,
   MatDividerModule,
   MatDialogModule,
-  MatTreeModule
+  MatTreeModule,
+  MatProgressSpinnerModule,
+  MatSnackBarModule,
+  MatCheckboxModule
 } from '@angular/material';
 
 @NgModule({
@@ -30,7 +33,10 @@ import {
     MatSelectModule,
     MatOptionModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatCheckboxModule
   ]
 })
 export class MaterialModule { }

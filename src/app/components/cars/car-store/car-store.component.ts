@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CarListService } from '../../../shared/services/car-list.service';
-import { Car } from '../../../interface/car';
+import { Car, TheCar } from '../../../interface/car';
 import { MatDialog } from '@angular/material';
 import { OperationDialogComponent } from '../operation-dialog/operation-dialog.component';
+import { FilterCarsComponent } from '../filter-cars/filter-cars.component';
 
 @Component({
   selector: 'app-car-store',
@@ -10,62 +11,98 @@ import { OperationDialogComponent } from '../operation-dialog/operation-dialog.c
   styleUrls: ['./car-store.component.scss']
 })
 export class CarStoreComponent implements OnInit {
+  @ViewChild( FilterCarsComponent ) filterCarsComponent: FilterCarsComponent;
+
+  fetchedData: TheCar;
   carsList: Car[];
   filteredCarsList: Car[];
+  uniqueSpecs: any[];
+
+  isLiveSearchActive = true;
+  isDataLoaded = false;
 
   constructor(
     private _carsService: CarListService,
-    public dialog: MatDialog) {
-    }
+    public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.carsList = this._carsService.getCars();
-    this.filteredCarsList = this.carsList;
+    this._carsService.getJSON().subscribe((cars: TheCar) => {
+      this.fetchedData = cars;
+      this.carsList = this._carsService.getMappedObj(this.fetchedData);
+      this.filteredCarsList = this.carsList;
+      this.isDataLoaded = true;
+
+      this.uniqueSpecs = this._carsService.getUniqueSpecs(this.carsList);
+
+      console.log('\nfull data: ', this.fetchedData, '\nmapped cars: ', this.carsList);
+      console.log('\nall specs: ', this._carsService.getUniqueSpecs(this.carsList));
+    });
+
+    // service method to return an object containing unique car attributes
   }
 
   // add new car
   openCarAddDialog(): void {
     const dialogRef = this.dialog.open(OperationDialogComponent, {
-      width: '500px'
+      width: '500px',
+      data: {uniqueSpecs: this.uniqueSpecs}
     });
 
     dialogRef.afterClosed().subscribe((result: Car) => {
       if (result) {
         this.carsList.push(result);
-        this.filteredCarsList = [...this.carsList];
-        // post change to service for each CRUD
 
-        console.log('added: ', result);
+        this.syncCarData(); // sync car data after each operation: filtered array, unique specs, etc
+
+        console.log('added: ', result, this.carsList.length);
       }
     });
   }
 
   // remove a car
   onCarRemove(carToRemove: Car): void {
-    const carToRemoveIndex = this.carsList.map(car => car.id === carToRemove.id).indexOf(true);
+    const carToRemoveIndex = this.carsList.map(car => {
+      return `${car.brand}${car.model}` === `${carToRemove.brand}${carToRemove.model}`;
+    }).indexOf(true);
 
     this.carsList.splice(carToRemoveIndex, 1);
-    this.filteredCarsList = [...this.carsList];
 
-    console.log('removed: ', carToRemove);
+    this.syncCarData(); // sync car data after each operation: filtered array, unique specs, etc
+
+    console.log('removed: ', carToRemove, this.carsList.length);
   }
 
   // edit existing car
   onCarDetailsEdit(carToEdit: Car): void {
-    const carToEditIndex = this.carsList.map(car => car.id === carToEdit.id).indexOf(true);
+    const carToEditIndex = this.carsList.map(car => {
+      return `${car.brand}${car.model}` === `${carToEdit.brand}${carToEdit.model}`;
+    }).indexOf(true);
 
     this.carsList[carToEditIndex] = carToEdit;
-    this.filteredCarsList = [...this.carsList];
 
-    console.log('editted: ', carToEdit);
+    this.syncCarData(); // sync car data after each operation: filtered array, unique specs, etc
+
+    console.log('editted: ', carToEdit, this.carsList.length);
   }
 
   onCarsFiltered(updatedCars: Car[]): void {
-    console.log(updatedCars);
+    console.log('filtered cars: ', updatedCars);
     if (updatedCars) {
       this.filteredCarsList = updatedCars;
     } else {
       this.filteredCarsList = this.carsList;
     }
+  }
+
+  syncCarData(): void {
+    this.filteredCarsList = [...this.carsList];
+
+    this.uniqueSpecs = this._carsService.getUniqueSpecs(this.carsList); // check unique specs after every operation
+    this.filterCarsComponent.applyFilter(); // clear all filters on any changes in car data
+    // post change to service for each CRUD
+  }
+
+  goToTop() {
+    window.scrollTo(0, 0);
   }
 }

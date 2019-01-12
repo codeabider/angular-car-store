@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Car } from '../../../interface/car';
+import { Car, TheCar } from '../../../interface/car';
 import { MatDialog } from '@angular/material';
 import { OperationDialogComponent } from '../operation-dialog/operation-dialog.component';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -12,12 +12,13 @@ import { CarListService } from '../../../shared/services/car-list.service';
 })
 export class CarDetailsComponent implements OnInit {
   @Input() car: Car;
-  @Input() carIndex: number;
+  @Input() uniqueSpecs: any[];
 
-  @Output() removed = new EventEmitter<any>();
-  @Output() detailsEdit = new EventEmitter<any>();
+  @Output() removed = new EventEmitter<Car>();
+  @Output() detailsEdit = new EventEmitter<Car>();
 
   isRouted = false;
+  isDataLoaded = false;
 
   constructor(
     public dialog: MatDialog,
@@ -27,10 +28,27 @@ export class CarDetailsComponent implements OnInit {
 
   ngOnInit() {
     // check from URL, whether the component is routed or part of parent
-    const carIndex = this._route.snapshot.paramMap.get('index');
-    if (carIndex) {
-      this.isRouted = true;
-      this.car = this._carsService.getCars()[carIndex];
+    // if its part of parent, no service call - else make service call
+    this.checkRouted();
+  }
+
+  checkRouted(): void {
+    let carFullName: string;
+    if (this._route.snapshot.paramMap.get('carFullName')) {
+      carFullName = this._route.snapshot.paramMap.get('carFullName').replace('%20', ' ');
+      console.log(carFullName);
+      this.isRouted = true; // unutilized as of now - use in navigating home w/o service call
+      this._carsService.getJSON().subscribe((data: TheCar) => {
+        const mappedCarsObj = this._carsService.getMappedObj(data);
+        const regex = new RegExp(carFullName, 'ig');
+        console.log(mappedCarsObj);
+        mappedCarsObj.filter((car: Car) => {
+          if ((`${car.brand} ${car.model}`).match(regex)) {
+            this.car = car;
+          }
+        });
+        this.isDataLoaded = true;
+      });
     }
   }
 
@@ -50,7 +68,7 @@ export class CarDetailsComponent implements OnInit {
   openCarEditDialog(): void {
     const dialogRef = this.dialog.open(OperationDialogComponent, {
       width: '500px',
-      data: this.car
+      data: {car: this.car, uniqueSpecs: this.uniqueSpecs}
     });
 
     dialogRef.afterClosed().subscribe((result: Car) => {
@@ -61,7 +79,7 @@ export class CarDetailsComponent implements OnInit {
   }
 
   showCarDetails() {
-    this._router.navigate(['/details', this.carIndex]);
+    this._router.navigate(['/details', `${this.car.brand} ${this.car.model}`]);
   }
 
   goBack() {
