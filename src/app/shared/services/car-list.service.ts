@@ -7,7 +7,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CarListService {
-  url = '../../../assets/data/future-cars.json';
+  url = '../../../assets/data/future-cars.json';  // local
+  // url = '/db';
+  // note:; in order to use json-server, we need to congifgure angular Proxy,
+  // so that our data is served from localhost:4200. localhost requests/ responses are blocked by CORS
 
   constructor(private _http: HttpClient) { }
 
