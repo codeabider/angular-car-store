@@ -21,8 +21,9 @@ export class CarDetailsComponent implements OnInit {
   @Output() detailsEdit = new EventEmitter<Car>();
 
   // isAdmin = false;
+  // isDataLoaded = false;
   isRouted = false;
-  isDataLoaded = false;
+  errorReturned = false;
 
   constructor(
     public dialog: MatDialog,
@@ -47,7 +48,7 @@ export class CarDetailsComponent implements OnInit {
       console.log(carFullName, 'isAdmin? ', this.isAdmin);
       this.isRouted = true; // unutilized as of now - use in navigating home w/o service call
 
-      this._carsService.getJSON().subscribe((data: TheCar) => {
+      this._carsService.getCarData().subscribe((data: TheCar) => {
         const mappedCarsObj = this._carsService.getMappedObj(data);
         const regex = new RegExp(carFullName, 'ig');
         console.log(mappedCarsObj);
@@ -56,7 +57,13 @@ export class CarDetailsComponent implements OnInit {
             this.car = car;
           }
         });
-        this.isDataLoaded = true;
+        if (!this.car) {
+          this.errorReturned = true;
+        }
+        // this.isDataLoaded = true;
+      }, error => {
+        console.log(error);
+        this.errorReturned = true;
       });
     }
   }

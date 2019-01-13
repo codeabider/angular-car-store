@@ -7,17 +7,28 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CarListService {
-  url = '../../../assets/data/future-cars.json';  // local
-  // url = '/db';
+  // url = 'assets/data/future-cars.json';  // local
+
   // note:; in order to use json-server, we need to congifgure angular Proxy,
-  // so that our data is served from localhost:4200. localhost requests/ responses are blocked by CORS
+  // so that our data is served from localhost:4200/. localhost requests/ responses are blocked by CORS
+  url = 'http://localhost:4200/db';
 
   constructor(private _http: HttpClient) { }
 
-  getJSON(): Observable<TheCar> {
+
+  // note: instead of piping each service request, using interceptors (ng 4.3.1+) to handle all errors globally
+  getCarData(): Observable<TheCar> {
     return this._http.get<TheCar>(this.url);
   }
 
+  // doesn't work currently with local data | see supported requested types and params
+  postCarData(cars: Car[]): Observable<TheCar> {
+    return this._http.post<TheCar>(this.url, cars);
+  }
+
+  // pagination limits, searches, sorts, etc can be done using mock API provided by json-server
+  // following local json approach here, to map received data into usable obj
+  // and performing all operations on that obj
   getMappedObj(cars: TheCar, brandLimit = 2, modelLimit = 5): Car[] {  // model limit pending
     const carsList: Car[] = [];
     const brandList = cars['brands'].splice(20, brandLimit);
@@ -67,7 +78,7 @@ export class CarListService {
   // just for demo
   // getData() {
   //   const source =
-  //     from(this.getJSON())
+  //     from(this.getCarData())
   //     .pipe(
   //       map( ({ brands }) => brands )
   //     );

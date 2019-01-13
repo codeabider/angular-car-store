@@ -73,9 +73,13 @@
 </mat-card>
 
 <ng-template #loader>
-  <div class="loader">
+  <div class="loader" *ngIf="!errorReturned; else error">
     <mat-spinner color="accent"></mat-spinner>
   </div>
+</ng-template>
+
+<ng-template #error>
+  <app-error [errorType]="'server-error'"></app-error>
 </ng-template>
 
 <ng-template #defaultImg>
@@ -83,5 +87,5 @@
     class="car-image"
     [ngClass]="{ 'standalone': isRouted }"
     mat-card-image
-    [ngStyle]="{ backgroundImage: 'url(' + '../../../../assets/images/car-default.jpg' + ')' }"></div>
+    [ngStyle]="{ backgroundImage: 'url(' + 'assets/images/car-default.jpg' + ')' }"></div>
 </ng-template>

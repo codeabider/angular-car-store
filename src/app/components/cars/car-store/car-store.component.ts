@@ -22,7 +22,7 @@ export class CarStoreComponent implements OnInit {
   isAdmin = false;
 
   isLiveSearchActive = true;
-  isDataLoaded = false;
+  errorReturned = false;
 
   constructor(
     private _carsService: CarListService,
@@ -32,16 +32,20 @@ export class CarStoreComponent implements OnInit {
   ngOnInit() {
     this.isAdmin = this._authService.getUserType() === 'admin' ? true : false;
 
-    this._carsService.getJSON().subscribe((cars: TheCar) => {
+    this._carsService.getCarData().subscribe((cars: TheCar) => {
       this.fetchedData = cars;
       this.carsList = this._carsService.getMappedObj(this.fetchedData);
       this.filteredCarsList = this.carsList;
-      this.isDataLoaded = true;
 
       this.uniqueSpecs = this._carsService.getUniqueSpecs(this.carsList);
 
       console.log('\nfull data: ', this.fetchedData, '\nmapped cars: ', this.carsList);
       console.log('\nall specs: ', this._carsService.getUniqueSpecs(this.carsList));
+    }, error => {
+      console.log(error);
+      if (error) {
+        this.errorReturned = true;
+      }
     });
 
     // service method to return an object containing unique car attributes

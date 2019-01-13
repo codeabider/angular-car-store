@@ -1,14 +1,41 @@
-<mat-card class="error" *ngIf="isLoggedIn; else aboutInfo">
-  <mat-card-title class="details-title">Nothing to Show!!</mat-card-title>
-</mat-card>
+<div [ngSwitch]="errorType">
+  <!-- no data to show in car list, like no search results -->
+  <mat-card class="error-card" *ngSwitchCase="'no-data'">
+    <mat-card-title class="text-bold details-title">Sorry! No Results Found!</mat-card-title>
+    <mat-card-content>Please try modifying your search criteria!</mat-card-content>
+  </mat-card>
 
-<ng-template #aboutInfo>
-  <mat-card class="error about-info">
+  <!-- server error -->
+  <mat-card class="error-card" *ngSwitchCase="'server-error'">
+    <mat-card-title class="text-bold details-title error-text">Error!</mat-card-title>
+    <mat-card-content>Something is not right! Please try again later...</mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="navigateTo('/home')">Retry</button>
+    </mat-card-actions>
+  </mat-card>
+  <!-- <ng-template #serverError>
+  </ng-template> -->
+
+  <!-- moved to details without selecting car, while logged in -->
+  <mat-card class="error-card" *ngSwitchCase="'no-selection'">
+    <mat-card-title class="text-bold details-title">Oops!</mat-card-title>
+    <mat-card-content>Please select a car to see details...</mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="navigateTo('/home')">Go to Home</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- show dev details if user navigates to 'about' at login page -->
+  <mat-card class="error-card" *ngSwitchCase="'dev-details'">
     <mat-card-title class="text-bold details-title">Welcome to The Car Store</mat-card-title>
     <mat-card-content>
       <p>Developed using Angular with Angular Material UI</p>
       <p>Login with 'admin' at all fields to unlock admin rights! Enjoy...</p>
       <p><span class="text-bold">Created By</span>: Harshdeep Bilaiya</p>
     </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="navigateTo('/login')">Go To Login</button>
+    </mat-card-actions>
   </mat-card>
-</ng-template>
+</div>
+

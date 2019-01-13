@@ -12,7 +12,9 @@ import { CarDetailsComponent } from './components/cars/car-details/car-details.c
 import { OperationDialogComponent } from './components/cars/operation-dialog/operation-dialog.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FilterCarsComponent } from './components/cars/filter-cars/filter-cars.component';
-import { HttpClientModule } from '@angular/common/http';
+
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from './shared/interceptor/http-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,13 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule
   ],
   entryComponents: [OperationDialogComponent],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

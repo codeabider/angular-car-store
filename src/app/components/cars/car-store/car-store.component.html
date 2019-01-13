@@ -1,4 +1,4 @@
-<div class="car-list-container" *ngIf="isDataLoaded; else loader">
+<div class="car-list-container" *ngIf="filteredCarsList; else loader">
   <div class="car-filter">
     <app-filter-cars
       [allCars]="carsList"
@@ -18,7 +18,7 @@
       (detailsEdit)="onCarDetailsEdit($event)"></app-car-details>
     <div class="clear-both"></div>
 
-    <app-error *ngIf="!filteredCarsList?.length"></app-error>
+    <app-error [errorType]="'no-data'" *ngIf="!filteredCarsList?.length"></app-error>
 
     <div class="button-container">
       <button
@@ -35,13 +35,17 @@
     color="accent"
     type="button"
     class="goto-top-button text-bold"
-    *ngIf="isDataLoaded"
+    *ngIf="filteredCarsList"
     (click)="goToTop()">&#9757;</button>
 </div>
 
 <ng-template #loader>
-  <div class="loader">
+  <div class="loader" *ngIf="!errorReturned; else error">
     <mat-spinner color="accent"></mat-spinner>
   </div>
+</ng-template>
+
+<ng-template #error>
+  <app-error [errorType]="'server-error'"></app-error>
 </ng-template>
 
