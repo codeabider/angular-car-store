@@ -52,7 +52,7 @@ export class AuthenticationService {
   // checks whether user is guest or admin
   grantUserAccess(userObj: Auth): void {
     const authObj: Auth = JSON.parse(this.getCredentials('authObj'));
-    console.log('auth srvc: ', userObj);
+    console.log('auth srvc: ', authObj, userObj);
     if ((authObj.username === userObj.username &&
         authObj.password === userObj.password &&
         authObj.role === userObj.role) ||

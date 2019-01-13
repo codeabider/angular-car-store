@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Car, TheCar, CarSpecs } from '../../../interface/car';
 import { MatDialog } from '@angular/material';
 import { OperationDialogComponent } from '../operation-dialog/operation-dialog.component';
@@ -9,7 +9,8 @@ import { AuthenticationService } from 'src/app/shared/services/authentication.se
 @Component({
   selector: 'app-car-details',
   templateUrl: './car-details.component.html',
-  styleUrls: ['./car-details.component.scss']
+  styleUrls: ['./car-details.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CarDetailsComponent implements OnInit {
   @Input() car: Car;
@@ -40,7 +41,7 @@ export class CarDetailsComponent implements OnInit {
     let carFullName: string;
     if (this._route.snapshot.paramMap.get('carFullName')) {
       this.isAdmin = this._authService.getUserType() === 'admin' ? true : false;
-      this._authService.isLoggedIn().subscribe(isUserLoggedIn => console.log());
+      // this._authService.isLoggedIn().subscribe(isUserLoggedIn => console.log());
 
       carFullName = this._route.snapshot.paramMap.get('carFullName').replace('%20', ' ');
       console.log(carFullName, 'isAdmin? ', this.isAdmin);

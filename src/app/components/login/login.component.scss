@@ -1,6 +1,9 @@
 .login-form-container {
-  width: 80%;
   margin: 30px auto;
+
+  .login-form-card {
+    background: rgba(255, 255, 255, .6);
+  }
 
   .login-form {
     margin: 20px auto 0;
@@ -9,11 +12,26 @@
 
   .form-heading {
     text-align: center;
+    font-weight: bold;
+    font-size: 1.5em;
   }
 
   .button-container {
     button {
       margin: 0 12px 0 0;
+    }
+  }
+}
+
+@media only screen and (min-width: 767px) {
+  .login-form-container {
+    margin: 30px 0;
+    display: flex;
+    justify-content: flex-end;
+
+    .login-form-card {
+      width: 65%;
+      max-width: 500px;
     }
   }
 }

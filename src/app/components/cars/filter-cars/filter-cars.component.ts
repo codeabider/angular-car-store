@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Car, Filter, CarSpecs } from 'src/app/interface/car';
 
 @Component({
   selector: 'app-filter-cars',
   templateUrl: './filter-cars.component.html',
-  styleUrls: ['./filter-cars.component.scss']
+  styleUrls: ['./filter-cars.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class FilterCarsComponent implements OnInit {
   @Input() allCars: Car[];
@@ -39,7 +40,7 @@ export class FilterCarsComponent implements OnInit {
     this.filteredCars = this.allCars;
     const regex = new RegExp(this.filterModel.searchString.replace(' ', ''), 'ig');
     let uniqueFilterCount = 0;
-    let matchedColors = [];
+    // let matchedColors = [];
 
     for (const key of Object.keys(this.filterModel)) {
       uniqueFilterCount = 0;

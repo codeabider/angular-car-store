@@ -1,14 +1,22 @@
 <div class="navbar-container">
   <nav class="navbar-header">
-    <a routerLink="/home" routerLinkActive="active-link" mat-button class="home">
-      <span class="home-text">&#8828;car-home&#8829;</span>
-      <img src="../../../assets/images/car.png" alt="home" class="home-icon">
-      <span class="home-text">&#8828;/car-home&#8829;</span>
-    </a>
-    <a routerLink="/details" routerLinkActive="active-link" mat-button>About</a>
+    <div>
+      <a routerLink="/home" routerLinkActive="active-link" mat-button class="home">
+        <span class="home-text">&#8828;car-home&#8829;</span>
+        <img src="../../../assets/images/car.png" alt="home" class="home-icon">
+        <span class="home-text">&#8828;/car-home&#8829;</span>
+      </a>
+      <a routerLink="/details" routerLinkActive="active-link" mat-button>About</a>
+    </div>
+
     <div class="flex-spacer"></div>
-    <span mat-button class="user-name text-bold" *ngIf="isLoggedIn">Welcome {{ userType }}</span>
-    <a routerLink="/login" routerLinkActive="active-link" mat-button *ngIf="!isLoggedIn">Login</a>
-    <a routerLink="/login" class="logout" routerLinkActive="active-link" mat-button *ngIf="isLoggedIn" (click)="logout()">Logout</a>
+
+    <div>
+      <span class="color-preview" [style.backgroundColor]="'white'" (click)="changeTheme('light')"></span>
+      <span class="color-preview" [style.backgroundColor]="'#303030'" (click)="changeTheme('dark')"></span>
+      <span mat-button class="user-name text-bold" *ngIf="isLoggedIn">Welcome {{ userType }}</span>
+      <a routerLink="/login" routerLinkActive="active-link" mat-button *ngIf="!isLoggedIn">Login</a>
+      <a routerLink="/login" class="logout" routerLinkActive="active-link" mat-button *ngIf="isLoggedIn" (click)="logout()">Logout</a>
+    </div>
   </nav>
 </div>

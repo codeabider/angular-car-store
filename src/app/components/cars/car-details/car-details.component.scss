@@ -25,10 +25,21 @@
     height: 50vh;
     background-position: 0;
   }
+
+  .button-container {
+    button {
+      margin: 0 8px 0 0;
+
+      &:first-child {
+        margin: 0 8px 0 0;
+      }
+    }
+  }
 }
 
-.button-container {
-  button {
-    margin: 0 6px;
+
+.dark {
+  .car-details-card {
+    background: #fff;
   }
 }

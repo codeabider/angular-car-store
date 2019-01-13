@@ -71,3 +71,16 @@
     }
   }
 }
+
+.dark {
+  .filter {
+    color: #fff;
+    background: #424242;
+    padding: 10px 0 10px 16px;
+    margin: 0;
+    border-radius: 4px;
+    display: block;
+    position: sticky;
+    top: 80px;
+  }
+}

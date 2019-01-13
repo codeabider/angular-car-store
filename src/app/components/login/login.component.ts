@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Renderer2, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { Router } from '@angular/router';
@@ -8,16 +8,19 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   roles = ['Admin', 'Guest'];
 
   constructor(
     private _formBuilder: FormBuilder,
     private _authService: AuthenticationService,
-    private _router: Router) { }
+    private _router: Router,
+    private _renderer: Renderer2) { }
 
   ngOnInit() {
+    this._renderer.addClass(document.body, 'login-page');
+
     this._authService.logout();
 
     this.loginForm = this._formBuilder.group({
@@ -42,6 +45,10 @@ export class LoginComponent implements OnInit {
         username.updateValueAndValidity();
         password.updateValueAndValidity();
       });
+  }
+
+  ngOnDestroy() {
+    this._renderer.removeClass(document.body, 'login-page');
   }
 
   get username() {
