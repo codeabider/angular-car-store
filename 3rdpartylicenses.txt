@@ -347,6 +347,8 @@ MIT
 
 @angular/material/progress-spinner
 
+@angular/material/menu
+
 @angular/material/checkbox
 
 @angular/material/dialog
