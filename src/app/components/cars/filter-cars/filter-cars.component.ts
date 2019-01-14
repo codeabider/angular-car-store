@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, HostListener } from '@angular/core';
 import { Car, Filter, CarSpecs } from 'src/app/interface/car';
 
 @Component({
@@ -23,10 +23,26 @@ export class FilterCarsComponent implements OnInit {
     type: []
   };
 
+  isMobile: boolean;
+
   constructor() { }
 
   ngOnInit() {
     this.filteredCars = this.allCars;  // initialize ini onChanges
+    this.checkView();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkView();
+  }
+
+  checkView() {
+    if (window.innerWidth < 768) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
   }
 
   onSearchEnter(): void {

@@ -1,6 +1,6 @@
 .car-details-card {
   background: rgba(63,81,181,.15);
-  margin: 8px;
+  margin: 8px 0;
   padding-bottom: 25px;
 
   .details-title {
@@ -16,14 +16,11 @@
 
   .car-image {
     background-size: cover;
-    height: 25vh;
-    width: 100%;
-    margin: 12px 0 0px;
-  }
-
-  .standalone {
-    height: 50vh;
-    background-position: 0;
+    height: 34vh;
+    width: auto;
+    margin: 12px auto;
+    background-repeat: no-repeat;
+    background-position: 50%;
   }
 
   .button-container {
@@ -32,6 +29,23 @@
 
       &:first-child {
         margin: 0 8px 0 0;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 767px) {
+  .car-details-card {
+    margin: 8px;
+
+    .car-image {
+      background-size: cover;
+      height: 25vh;
+      width: 100%;
+      margin: 12px 0 0px;
+
+      &.standalone {
+        height: 50vh;
       }
     }
   }

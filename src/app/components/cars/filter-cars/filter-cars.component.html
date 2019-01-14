@@ -1,5 +1,5 @@
 <div class="filter">
-  <div class="filter-content">
+  <div class="filter-content search">
     <mat-form-field class="full-width search-box">
       <input
         type="text"
@@ -9,55 +9,67 @@
         [(ngModel)]="filterModel.searchString"
         (ngModelChange)="onSearchEnter()"/>
     </mat-form-field>
+  </div>
 
+  <ng-container *ngTemplateOutlet="isMobile ? mobileView : filterList"></ng-container>
+</div>
+
+<ng-template #mobileView>
+  <button mat-button color="accent" [matMenuTriggerFor]="filterMenu">Filters</button>
+  <mat-menu #filterMenu="matMenu" class="mobile-filter mat-typography">
+    <ng-container *ngTemplateOutlet="filterList"></ng-container>
+  </mat-menu>
+</ng-template>
+
+<ng-template #filterList>
+  <div class="filter-content">
     <div class="full-width filter-category">
-        <label class="text-bold">Brands:</label>
-        <mat-checkbox
-          class="filter-checkbox"
-          name="brand"
-          *ngFor="let brand of uniqueSpecs['brand']; let i = index;"
-          [(ngModel)]="filterModel.brand[i]"
-          (ngModelChange)="onSearchEnter()"
-          >{{ brand }}</mat-checkbox>
+      <label class="text-bold">Brands:</label>
+      <mat-checkbox
+        class="filter-checkbox"
+        name="brand"
+        *ngFor="let brand of uniqueSpecs['brand']; let i = index;"
+        [(ngModel)]="filterModel.brand[i]"
+        (ngModelChange)="onSearchEnter()"
+        >{{ brand }}</mat-checkbox>
     </div>
 
     <div class="full-width filter-category">
-        <label class="text-bold">Types:</label>
-        <mat-checkbox
-          class="filter-checkbox"
-          name="type"
-          *ngFor="let type of uniqueSpecs['type']; let i = index;"
-          [(ngModel)]="filterModel.type[i]"
-          (ngModelChange)="onSearchEnter()"
-          >{{ type }}</mat-checkbox>
+      <label class="text-bold">Types:</label>
+      <mat-checkbox
+        class="filter-checkbox"
+        name="type"
+        *ngFor="let type of uniqueSpecs['type']; let i = index;"
+        [(ngModel)]="filterModel.type[i]"
+        (ngModelChange)="onSearchEnter()"
+        >{{ type }}</mat-checkbox>
     </div>
 
     <div class="full-width filter-category">
-        <label class="text-bold">Transmissions:</label>
-        <mat-checkbox
-          class="filter-checkbox"
-          name="transmission"
-          *ngFor="let transmission of uniqueSpecs['transmission']; let i = index;"
-          [(ngModel)]="filterModel.transmission[i]"
-          (ngModelChange)="onSearchEnter()"
-          >{{ transmission }}</mat-checkbox>
+      <label class="text-bold">Transmissions:</label>
+      <mat-checkbox
+        class="filter-checkbox"
+        name="transmission"
+        *ngFor="let transmission of uniqueSpecs['transmission']; let i = index;"
+        [(ngModel)]="filterModel.transmission[i]"
+        (ngModelChange)="onSearchEnter()"
+        >{{ transmission }}</mat-checkbox>
     </div>
 
     <div class="full-width filter-category">
-        <label class="text-bold">Colors:</label>
-        <mat-checkbox
-          class="filter-checkbox"
-          name="color"
-          *ngFor="let color of uniqueSpecs['colors']; let i = index;"
-          [(ngModel)]="filterModel.colors[i]"
-          (ngModelChange)="onSearchEnter()"
-          >
-          <span
-            class="color-preview"
-            [style.backgroundColor]="color"></span>
-        </mat-checkbox>
+      <label class="text-bold">Colors:</label>
+      <mat-checkbox
+        class="filter-checkbox"
+        name="color"
+        *ngFor="let color of uniqueSpecs['colors']; let i = index;"
+        [(ngModel)]="filterModel.colors[i]"
+        (ngModelChange)="onSearchEnter()"
+        >
+        <span
+          class="color-preview"
+          [style.backgroundColor]="color"></span>
+      </mat-checkbox>
     </div>
-
   </div>
 
   <div class="button-container">
@@ -73,4 +85,4 @@
       color="warn"
       (click)="clearFilter()">Clear</button>
   </div>
-</div>
+</ng-template>

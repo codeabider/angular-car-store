@@ -1,14 +1,15 @@
 .filter {
   display: flex;
-  flex: 4;
   font-size: 0.85714em;
+  margin: 10px;
+  padding: 10px 0 10px 16px;
 
   .search-box {
     margin: 0;
   }
 
   .filter-content {
-    max-height: 75vh;
+    max-height: 65vh;
     overflow: auto;
     padding: 0 16px 0 0;
 
@@ -20,10 +21,6 @@
     &::-webkit-scrollbar-thumb {
       background: rgba(0,0,0,.26);
     }
-  }
-
-  .full-width {
-    width: 70%;
   }
 
   .filter-checkbox {
@@ -53,13 +50,35 @@
       margin: 0 5px 0;
     }
   }
+
+  .search {
+    width: 80%;
+  }
+}
+
+.mobile-filter {
+  @extend .filter;
+  font-size: .75em;
+
+  &.mat-menu-panel {
+    width: 250px;
+
+    .mat-menu-content {
+      width: 240px;
+    }
+  }
 }
 
 @media only screen and (min-width: 767px) {
   .filter {
     display: block;
     position: sticky;
-    top: 80px;
+    top: 75px;
+    padding-right: 4px;
+
+    .search {
+      width: 85%;
+    }
 
     .full-width {
       width: 100%;
@@ -76,11 +95,7 @@
   .filter {
     color: #fff;
     background: #424242;
-    padding: 10px 0 10px 16px;
     margin: 0;
     border-radius: 4px;
-    display: block;
-    position: sticky;
-    top: 80px;
   }
 }

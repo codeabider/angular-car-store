@@ -18,7 +18,8 @@
 
   .button-container {
     button {
-      margin: 0 12px 0 0;
+      margin: 8px auto;
+      display: block;
     }
   }
 }
@@ -32,6 +33,13 @@
     .login-form-card {
       width: 65%;
       max-width: 500px;
+    }
+
+    .button-container {
+      button {
+        margin: 0 12px 0 0;
+        display: inline-block;
+      }
     }
   }
 }
