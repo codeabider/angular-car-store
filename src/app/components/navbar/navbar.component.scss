@@ -46,17 +46,42 @@
   .color-preview {
     cursor: pointer;
   }
+
+  &.nav-menu {
+    color: black;
+    background: white;
+
+    .active-link, .logout {
+      background: initial;
+      color: black;
+    }
+  }
 }
 
 .dark {
   .navbar-header {
     background: #e91e63;
   }
+
   .logout {
     background: #ff4081;
   }
+
   .active-link {
     background: #ff4e8a;
     color: white;
+  }
+
+  .nav-menu {
+    color: white;
+    background: #303030;
+
+    a {
+      color: white;
+    }
+
+    .active-link, .logout {
+      color: white;
+    }
   }
 }

@@ -6,7 +6,7 @@
   margin: 18px 0 5px;
 }
 
-@media only screen and (min-width: 767px) {
+@media only screen and (min-width: 768px) {
   .car-list-container {
     display: flex;
     justify-content: space-between;
@@ -25,7 +25,7 @@
   }
 }
 
-@media only screen and (min-width: 1019px) {
+@media only screen and (min-width: 1024px) {
   .car-list-container {
     .car-details {
       width: 33%;

@@ -6,68 +6,34 @@
         <img src="assets/images/car.png" alt="home" class="home-icon">
         <span class="home-text">&#8828;/car-home&#8829;</span>
       </a>
-      <a routerLink="/details" routerLinkActive="active-link" mat-button>About</a>
+
+      <a routerLink="/details" routerLinkActive="active-link" mat-button fxShow="false" fxShow.gt-sm>About</a>
     </div>
 
     <div class="flex-spacer"></div>
 
+    <button mat-button [mat-menu-trigger-for]="navMenu" fxHide="false" fxHide.gt-sm>Menu</button>
+
     <div>
-      <span class="color-preview" [style.backgroundColor]="'white'" (click)="changeTheme('light')"></span>
-      <span class="color-preview" [style.backgroundColor]="'#303030'" (click)="changeTheme('dark')"></span>
-      <span mat-button class="user-name text-bold" *ngIf="isLoggedIn">Welcome {{ userType }}</span>
-      <a routerLink="/login" routerLinkActive="active-link" mat-button *ngIf="!isLoggedIn">Login</a>
-      <a routerLink="/login" class="logout" routerLinkActive="active-link" mat-button *ngIf="isLoggedIn" (click)="logout()">Logout</a>
+      <span fxShow="false" fxShow.gt-sm>
+        <span class="color-preview" [style.backgroundColor]="'white'" (click)="changeTheme('light')"></span>
+        <span class="color-preview" [style.backgroundColor]="'#303030'" (click)="changeTheme('dark')"></span>
+        <span mat-button class="user-name text-bold" *ngIf="isLoggedIn">Welcome {{ userType }}</span>
+
+        <a routerLink="/login" routerLinkActive="active-link" mat-button *ngIf="!isLoggedIn">Login</a>
+        <a routerLink="/login" class="logout" routerLinkActive="active-link" mat-button *ngIf="isLoggedIn" (click)="logout()">Logout</a>
+      </span>
     </div>
   </nav>
 </div>
 
-<!-- <div class="navbar-container">
-  <div >
-    <mat-toolbar color="primary" class="navbar-header">
-      <mat-toolbar-row>
-        <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
-          <mat-icon>menu</mat-icon>
-        </button>
-        <div>
-          <a routerLink="/home" routerLinkActive="active-link" mat-button class="home">
-            <span class="home-text">&#8828;car-home&#8829;</span>
-            <img src="assets/images/car.png" alt="home" class="home-icon">
-            <span class="home-text">&#8828;/car-home&#8829;</span>
-          </a>
-          <a routerLink="/details" routerLinkActive="active-link" mat-button>About</a>
-        </div>
+<mat-menu x-position="before" #navMenu="matMenu" class="navbar-container nav-menu mat-typography">
+  <span class="color-preview" [style.backgroundColor]="'white'" (click)="changeTheme('light')"></span>
+  <span class="color-preview" [style.backgroundColor]="'#303030'" (click)="changeTheme('dark')"></span>
+  <span mat-button class="user-name text-bold" *ngIf="isLoggedIn">Welcome {{ userType }}</span>
 
-        <div class="flex-spacer"></div>
+  <a routerLink="/details" routerLinkActive="active-link" mat-menu-item>About</a>
 
-        <div>
-          <span class="color-preview" [style.backgroundColor]="'white'" (click)="changeTheme('light')"></span>
-          <span class="color-preview" [style.backgroundColor]="'#303030'" (click)="changeTheme('dark')"></span>
-          <span mat-button class="user-name text-bold" *ngIf="isLoggedIn">Welcome {{ userType }}</span>
-          <a routerLink="/login" routerLinkActive="active-link" mat-button *ngIf="!isLoggedIn">Login</a>
-          <a routerLink="/login" class="logout" routerLinkActive="active-link" mat-button *ngIf="isLoggedIn" (click)="logout()">Logout</a>
-        </div>
-      </mat-toolbar-row>
-    </mat-toolbar>
-
-    <mat-sidenav-container fxFlexFill>
-      <mat-sidenav #sidenav>
-        <mat-nav-list>
-          <a routerLink="/home" routerLinkActive="active-link" mat-button class="home">
-            <span class="home-text">&#8828;car-home&#8829;</span>
-            <img src="assets/images/car.png" alt="home" class="home-icon">
-            <span class="home-text">&#8828;/car-home&#8829;</span>
-          </a>
-          <a routerLink="/details" routerLinkActive="active-link" mat-button>About</a>
-
-          <span class="color-preview" [style.backgroundColor]="'white'" (click)="changeTheme('light')"></span>
-          <span class="color-preview" [style.backgroundColor]="'#303030'" (click)="changeTheme('dark')"></span>
-          <span mat-button class="user-name text-bold" *ngIf="isLoggedIn">Welcome {{ userType }}</span>
-
-          <a routerLink="/login" routerLinkActive="active-link" mat-button *ngIf="!isLoggedIn">Login</a>
-          <a routerLink="/login" class="logout" routerLinkActive="active-link" mat-button *ngIf="isLoggedIn" (click)="logout()">Logout</a>
-        </mat-nav-list>
-      </mat-sidenav>
-      <mat-sidenav-content fxFlexFill>Main content</mat-sidenav-content>
-    </mat-sidenav-container>
-  </div>
-</div> -->
+  <a routerLink="/login" routerLinkActive="active-link" mat-menu-item *ngIf="!isLoggedIn">Login</a>
+  <a routerLink="/login" class="logout" routerLinkActive="active-link" mat-menu-item *ngIf="isLoggedIn" (click)="logout()">Logout</a>
+</mat-menu>

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { CustomBreakPointsProvider } from './custom-breakpoints';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatCardModule,
@@ -16,10 +18,7 @@ import {
   MatProgressSpinnerModule,
   MatSnackBarModule,
   MatCheckboxModule,
-  MatMenuModule,
-  MatToolbarModule,
-  MatIconModule,
-  MatSidenavModule
+  MatMenuModule
 } from '@angular/material';
 
 @NgModule({
@@ -42,9 +41,10 @@ import {
     MatSnackBarModule,
     MatCheckboxModule,
     MatMenuModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule
+    FlexLayoutModule
+  ],
+  providers: [
+    CustomBreakPointsProvider
   ]
 })
 export class MaterialModule { }
