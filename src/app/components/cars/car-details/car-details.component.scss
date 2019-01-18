@@ -1,5 +1,7 @@
+@import '../../../styles/global/colors';
+
 .car-details-card {
-  background: rgba(63,81,181,.15);
+  background: $bg_dark_card;
   margin: 8px 0;
   padding-bottom: 25px;
 
@@ -54,6 +56,6 @@
 
 .dark {
   .car-details-card {
-    background: #fff;
+    background: $white;
   }
 }

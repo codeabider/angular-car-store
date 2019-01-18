@@ -1,6 +1,8 @@
+@import '../../styles/global/colors';
+
 .navbar-container {
-  color: rgb(255, 255, 255);
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px -1px, rgba(0, 0, 0, 0.14) 0px 6px 10px 0px, rgba(0, 0, 0, 0.12) 0px 1px 18px 0px;
+  color: $white;
+  box-shadow: $navbar_shadow;
 
   .navbar-header {
     position: fixed;
@@ -13,11 +15,11 @@
     flex-wrap: wrap;
     align-items: center;
     padding: 8px 16px;
-    background: #3f51b5;
+    background: $primary_blue;
   }
 
   .logout {
-    background: #673ab7;
+    background: $purple;
   }
 
   .user-name {
@@ -39,8 +41,8 @@
   }
 
   .active-link {
-    background: #ffd740;
-    color: brown;
+    background: $gold;
+    color: $brown;
   }
 
   .color-preview {
@@ -48,40 +50,40 @@
   }
 
   &.nav-menu {
-    color: black;
-    background: white;
+    color: $black;
+    background: $white;
 
     .active-link, .logout {
       background: initial;
-      color: black;
+      color: $black;
     }
   }
 }
 
 .dark {
   .navbar-header {
-    background: #e91e63;
+    background: $primary_pink;
   }
 
   .logout {
-    background: #ff4081;
+    background: $pink;
   }
 
   .active-link {
-    background: #ff4e8a;
-    color: white;
+    background: $pink;
+    color: $white;
   }
 
   .nav-menu {
-    color: white;
-    background: #303030;
+    color: $white;
+    background: $dark;
 
     a {
-      color: white;
+      color: $white;
     }
 
     .active-link, .logout {
-      color: white;
+      color: $white;
     }
   }
 }

@@ -1,8 +1,10 @@
+@import '../../styles/global/colors';
+
 .login-form-container {
   margin: 30px auto;
 
   .login-form-card {
-    background: rgba(255, 255, 255, .6);
+    background: $bg_login_box;
   }
 
   .login-form {

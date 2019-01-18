@@ -1,3 +1,5 @@
+@import '../../../styles/global/colors';
+
 .filter {
   display: flex;
   font-size: 0.85714em;
@@ -19,7 +21,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(0,0,0,.26);
+      background: $scroll;
     }
   }
 
@@ -31,7 +33,7 @@
   .filter-category {
     margin: 0;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.26);
+    border-bottom: 1px solid $scroll;
 
     .color-preview {
       border: none;
@@ -93,8 +95,8 @@
 
 .dark {
   .filter {
-    color: #fff;
-    background: #424242;
+    color: $white;
+    background: $bg_dark_filter;
     margin: 0;
     border-radius: 4px;
   }

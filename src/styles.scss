@@ -1,11 +1,12 @@
 // @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "./app/styles/global/colors.scss";
 
 body {
   margin: 0;
 
   &.dark {
-    background: #303030;
+    background: $dark;
   }
 
   &.login-page {
@@ -37,7 +38,7 @@ body {
 }
 
 .error-text {
-  color: red;
+  color: $red;
 }
 
 .text-ellipses {
@@ -52,16 +53,9 @@ button.goto-top-button {
   right: 20px;
 }
 
-.no-data {
-  text-align: center;
-  color: red;
-  border: 1px dotted red;
-  font-size: 18px;
-}
-
 .color-preview {
   display: inline-block;
-  border: 1px dotted black;
+  border: 1px dotted $black;
   border-radius: 50%;
   height: 15px;
   width: 15px;
