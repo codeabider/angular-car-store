@@ -1438,30 +1438,39 @@ var data = [
   }
 ]
 
+// var carObj = {
+// 	"brands": [],
+// 	"models": []
+// };
+
 var carObj = {
-	"brands": [
-    {
-			"id": 0,
-			"name": ""
-		}
-	],
-	"models": [
-    {
-      "brandId": 0,
-      "id": 0,
-      "name": "",
-      "year": 0,
-      "type": "",
-      "engineCapacity": 0,
-      "colors": [],
-      "transmission": "",
-      "imgSrc": ""
-    }
-  ]
+	"cars": []
 };
 
 getRandomIndex = (min, max) => {
   return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+getCarsData = () => {
+  for(i=0;i<data.length;i++){
+    carObj.cars.push({
+      "id": i+1,
+      "brand": data[i].brand,
+      "models": []
+    });
+    for(j=0;j<data[i]["models"].length;j++){
+      carObj.cars[i]["models"].push({
+        "id": (i+1)+"-"+(j+1),
+        "name": data[i].models[j],
+        "year": yearArr[getRandomIndex(0, 5)],
+        "type": typeArr[getRandomIndex(0, 5)],
+        "engineCapacity": engineCapArr[getRandomIndex(0, 5)],
+        "colors": colorsArr[getRandomIndex(0, 5)],
+        "transmission": transitionArr[getRandomIndex(0, 5)],
+        "imgSrc": imageSrcArr[getRandomIndex(0, 9)]
+      });
+    }
+  }
 }
 
 getBrands = () => {
@@ -1479,8 +1488,8 @@ getModels = () => {
   for(i=0;i<39;i++){
     for(j=0;j<data[i].models.length;j++){
       carObj.models.push({
-        "brandId": i+1,
-        "id": i+j+2,
+        // "brandId": i+1,
+        "id": j+1,
         "name": data[i].models[j],
         "year": yearArr[getRandomIndex(0, 5)],
         "type": typeArr[getRandomIndex(0, 5)],
@@ -1495,6 +1504,7 @@ getModels = () => {
   return carObj;
 }
 
-getBrands();
-getModels();
+// getBrands();
+// getModels();
+getCarsData();
 copy(carObj);

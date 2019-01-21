@@ -3,11 +3,7 @@
     "target": "http://localhost:3000",
     "secure": false
   },
-  "/brands": {
-    "target": "http://localhost:3000",
-    "secure": false
-  },
-  "/models": {
+  "/data": {
     "target": "http://localhost:3000",
     "secure": false
   }

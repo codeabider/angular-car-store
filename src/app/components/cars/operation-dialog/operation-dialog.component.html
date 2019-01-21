@@ -9,12 +9,12 @@
   </h3>
   <div mat-dialog-content>
     <mat-form-field class="full-width" *ngIf="!carData.car">
-      <input type="text" matInput placeholder="Car Brand" formControlName="brand"/>
+      <input type="text" matInput placeholder="Car Brand" (blur)="onInputBlur(brand)" formControlName="brand"/>
       <mat-error>{{ getErrorMsg(brand.errors) }}</mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-width" *ngIf="!carData.car">
-      <input type="text" matInput placeholder="Model" formControlName="model"/>
+      <input type="text" matInput placeholder="Model" (blur)="onInputBlur(model)" formControlName="model"/>
       <mat-error>{{ getErrorMsg(model.errors) }}</mat-error>
     </mat-form-field>
 
@@ -37,7 +37,7 @@
     <div *ngFor="let colorField of colors.controls; let i = index; let last = last;">
       <mat-form-field
         formArrayName="colors"
-        class="full-width dynamic-field"        >
+        class="full-width dynamic-field">
         <input type="text" matInput placeholder="Color" [formControlName]="i"/>
         <span
           class="color-preview"

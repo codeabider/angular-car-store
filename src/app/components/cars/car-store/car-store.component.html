@@ -1,7 +1,7 @@
 <div class="car-list-container" *ngIf="filteredCarsList; else loader">
   <div class="car-filter">
     <app-filter-cars
-      [allCars]="carsList"
+      [allCars]="carsToShow"
       [liveSearch]="isLiveSearchActive"
       [uniqueSpecs]="uniqueSpecs"
       (filterCars)="onCarsFiltered($event)"></app-filter-cars>
@@ -19,6 +19,15 @@
     <div class="clear-both"></div>
 
     <app-error [errorType]="'no-data'" *ngIf="!filteredCarsList?.length"></app-error>
+
+    <div class="button-container">
+      <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        *ngIf="!loadingMore; else loading"
+        (click)="loadData(true)">Load More</button>
+    </div>
 
     <div class="button-container">
       <button
@@ -42,6 +51,12 @@
 <ng-template #loader>
   <div class="loader" *ngIf="!errorReturned; else error">
     <mat-spinner color="accent"></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="loader load-more">
+    <mat-spinner color="accent" [diameter]="36"></mat-spinner>
   </div>
 </ng-template>
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Car, TheCar, CarSpecs } from '../../interface/car';
+import { Car, Config, CarSpecs, RawCar, CarModel } from '../../interface/car';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -7,52 +7,73 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CarListService {
-  url = 'assets/data/future-cars.json';  // local --> use for deployement
+  url = 'assets/data/cars.json';  // local --> use for deployement
 
-  // note:; in order to use json-server, we need to congifgure angular Proxy,
+  // note: in order to use json-server, we need to congifgure angular Proxy,
   // so that our data is served from localhost:4200/. localhost requests/ responses are blocked by CORS
   // use to get, post, delete data from mock API
-  // url = 'http://localhost:4200/db';
+  // url = '/db';
 
   constructor(private _http: HttpClient) { }
 
 
   // note: instead of piping each service request, using interceptors (ng 4.3.1+) to handle all errors globally
-  getCarData(): Observable<TheCar> {
-    return this._http.get<TheCar>(this.url);
+  getCarData(): Observable<Config> {
+    return this._http.get<Config>(this.url);
   }
 
-  // doesn't work currently with local data | see supported requested types and params
-  postCarData(cars: Car[]): Observable<TheCar> {
-    return this._http.post<TheCar>(this.url, cars);
+  // POST pushes to the array -> using in case when brand new car is added
+  addCarData(newCar: RawCar): Observable<RawCar> {
+    console.log('posting: ', newCar);
+    return this._http.post<RawCar>('/data', newCar);
   }
+
+  // deleteCarData(carToDelete: RawCar): Observable<RawCar> {
+  //   console.log('posting: ', carToDelete);
+  //   return this._http.delete<RawCar>(`/data`, carToDelete);
+  // }
 
   // pagination limits, searches, sorts, etc can be done using mock API provided by json-server
   // following local json approach here, to map received data into usable obj
   // and performing all operations on that obj
-  getMappedObj(cars: TheCar, brandLimit = 2, modelLimit = 5): Car[] {  // model limit pending
+  getMappedObj(cars: RawCar[]): Car[] {  // implement lazy load
     const carsList: Car[] = [];
-    const brandList = cars['brands'].splice(20, brandLimit);
 
-    cars['models'].map((model) => {
-      brandList.map((brand) => {
-        if (brand.id === model.brandId) {
-          carsList.push({
-            id: model.id,
-            brand: brand.name,
-            model: model.name,
-            year: model.year,
-            type: model.type,
-            engineCapacity: model.engineCapacity,
-            colors: model.colors,
-            transmission: model.transmission,
-            imgSrc: model.imgSrc
-          });
-        }
+    cars.forEach((car: RawCar, carIndex: number) => {
+      car.models.forEach((model: CarModel, modelIndex: number) => {
+        carsList.push({
+          brandId: car.id,
+          id: model.id,
+          brand: car.brand,
+          model: model.name,
+          colors: model.colors,
+          engineCapacity: model.engineCapacity,
+          imgSrc: model.imgSrc,
+          transmission: model.transmission,
+          type: model.type,
+          year: model.year
+        });
       });
     });
 
     return carsList;
+  }
+
+  getRawObj(mappedCar: Car): RawCar {
+    return {
+      brand: mappedCar.brand,
+      id: mappedCar.brandId,
+      models: [{
+        colors: mappedCar.colors,
+        engineCapacity: mappedCar.engineCapacity,
+        id: mappedCar.id,
+        imgSrc: mappedCar.imgSrc,
+        name: mappedCar.model,
+        transmission: mappedCar.transmission,
+        type: mappedCar.type,
+        year: mappedCar.year
+      }]
+    };
   }
 
   getUniqueSpecs(cars: Car[]): any {
@@ -75,23 +96,4 @@ export class CarListService {
 
     return uniqueSpecs;
   }
-
-  // just for demo
-  // getData() {
-  //   const source =
-  //     from(this.getCarData())
-  //     .pipe(
-  //       map( ({ brands }) => brands )
-  //     );
-
-  //   source.subscribe(data => console.log('getData rxjs ops: ', data));
-  // }
-
-  // getCars(): Car[] {
-  //   return this.carsList;
-  // }
-
-  // postCar(car: Car): void {
-  //   this.carsList.push(car);
-  // }
 }

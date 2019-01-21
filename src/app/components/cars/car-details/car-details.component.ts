@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { Car, TheCar, CarSpecs } from '../../../interface/car';
+import { Car, Config, CarSpecs } from '../../../interface/car';
 import { MatDialog } from '@angular/material';
 import { OperationDialogComponent } from '../operation-dialog/operation-dialog.component';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -48,10 +48,10 @@ export class CarDetailsComponent implements OnInit {
       console.log(carFullName, 'isAdmin? ', this.isAdmin);
       this.isRouted = true; // unutilized as of now - use in navigating home w/o service call
 
-      this._carsService.getCarData().subscribe((data: TheCar) => {
-        const mappedCarsObj = this._carsService.getMappedObj(data);
-        const regex = new RegExp(carFullName, 'ig');
-        console.log(mappedCarsObj);
+      this._carsService.getCarData().subscribe((cars: Config) => {
+        const mappedCarsObj = this._carsService.getMappedObj(cars.data);
+        const regex = new RegExp(`^${carFullName}$`, 'ig');
+        // console.log(mappedCarsObj);
         mappedCarsObj.filter((car: Car) => {
           if ((`${car.brand} ${car.model}`).match(regex)) {
             this.car = car;
@@ -60,6 +60,7 @@ export class CarDetailsComponent implements OnInit {
         if (!this.car) {
           this.errorReturned = true;
         }
+        console.log('Car details: ', this.car);
         // this.isDataLoaded = true;
       }, error => {
         console.log(error);

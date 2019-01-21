@@ -7,12 +7,21 @@
         <span class="home-text">&#8828;/car-home&#8829;</span>
       </a>
 
-      <a routerLink="/details" routerLinkActive="active-link" mat-button fxShow="false" fxShow.gt-sm>About</a>
+      <a
+        routerLink="/details"
+        routerLinkActive="active-link"
+        mat-button fxShow="false"
+        fxShow.gt-sm>About</a>
     </div>
 
     <div class="flex-spacer"></div>
 
-    <button mat-button [mat-menu-trigger-for]="navMenu" fxHide="false" fxHide.gt-sm>Menu</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [mat-menu-trigger-for]="navMenu"
+      fxHide="false"
+      fxHide.gt-sm>Menu</button>
 
     <div>
       <span fxShow="false" fxShow.gt-sm>
@@ -20,8 +29,14 @@
         <span class="color-preview" [style.backgroundColor]="'#303030'" (click)="changeTheme('dark')"></span>
         <span mat-button class="user-name text-bold" *ngIf="isLoggedIn">Welcome {{ userType }}</span>
 
-        <a routerLink="/login" routerLinkActive="active-link" mat-button *ngIf="!isLoggedIn">Login</a>
-        <a routerLink="/login" class="logout" routerLinkActive="active-link" mat-button *ngIf="isLoggedIn" (click)="logout()">Logout</a>
+        <a
+          routerLink="/login"
+          routerLinkActive="active-link"
+          [ngClass]="{ 'logout' : isLoggedIn }"
+          mat-button
+          (click)="isLoggedIn ? logout() : null">
+          {{ !isLoggedIn ? 'Login' : 'Logout' }}
+        </a>
       </span>
     </div>
   </nav>
@@ -34,6 +49,12 @@
 
   <a routerLink="/details" routerLinkActive="active-link" mat-menu-item>About</a>
 
-  <a routerLink="/login" routerLinkActive="active-link" mat-menu-item *ngIf="!isLoggedIn">Login</a>
-  <a routerLink="/login" class="logout" routerLinkActive="active-link" mat-menu-item *ngIf="isLoggedIn" (click)="logout()">Logout</a>
+  <a
+    routerLink="/login"
+    routerLinkActive="active-link"
+    [ngClass]="{ 'logout' : isLoggedIn }"
+    mat-menu-item
+    (click)="isLoggedIn ? logout() : null">
+    {{ !isLoggedIn ? 'Login' : 'Logout' }}
+  </a>
 </mat-menu>

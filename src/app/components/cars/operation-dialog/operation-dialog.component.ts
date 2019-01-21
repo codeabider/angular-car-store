@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Car } from '../../../interface/car';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-operation-dialog',
@@ -36,14 +36,17 @@ export class OperationDialogComponent implements OnInit {
     console.log('------passed to Dialog------\n', this.carData);
     if (!this.carData.remove) {
       this.carDetailsForm = this._formBuilder.group({
-        id: [99],  // ops on basis of brand+model, just dending the constant id
+        // each mappedObj 'id' will be unique: (brand id - model id)
+        brandId: [this.carData.car ? this.carData.car.brandId : -1],
+        id: [this.carData.car ? this.carData.car.id : '-1'],
         brand: [this.carData.car ? this.carData.car.brand : '', Validators.required],
         model: [this.carData.car ? this.carData.car.model : '', Validators.required],
-        year: [this.carData.car ? this.carData.car.year : 1900, Validators.required],
-        type: [this.carData.car ? this.carData.car.type : '', Validators.required],
+        colors: this._formBuilder.array(this.carData.car ? this.carData.car.colors : ['']),
         engineCapacity: [this.carData.car ? this.carData.car.engineCapacity : 20, Validators.required],
+        imgSrc: [this.carData.car ? this.carData.car.imgSrc : ''],
         transmission: [this.carData.car ? this.carData.car.transmission : '', Validators.required],
-        colors: this._formBuilder.array(this.carData.car ? this.carData.car.colors : [''])
+        type: [this.carData.car ? this.carData.car.type : '', Validators.required],
+        year: [this.carData.car ? this.carData.car.year : 1900, Validators.required]
       });
 
       if (this.carData.uniqueSpecs) {
@@ -81,6 +84,10 @@ export class OperationDialogComponent implements OnInit {
     return this.carDetailsForm.get('colors') as FormArray;
   }
 
+  onInputBlur(control: FormControl) {
+    control.patchValue(this.capitalize(control.value));
+  }
+
   addColor(): void {
     this.colors.push(this._formBuilder.control(''));
   }
@@ -112,6 +119,10 @@ export class OperationDialogComponent implements OnInit {
       engineCapacity: fillDefault ? 25 : 20,
       transmission: fillDefault ? 'Auto' : ''
     });
+  }
+
+  capitalize(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   getErrorMsg(errors: any): any {

@@ -1,35 +1,34 @@
 // car object received from srvc call
-export interface TheCar {
-  brands: Array<CarBrand>;
-  models: Array<CarModel>;
+export interface Config {
+  data: Array<RawCar>;
 }
 
-// car brands
-export interface CarBrand {
+export interface RawCar {
+  brand: string;
   id: number;
-  name: string;
+  models: Array<CarModel>;
 }
 
 // car models
 export interface CarModel {
-  brandId: number;
   colors: Array<string>;
   engineCapacity: number;
-  id: number;
-  name: string;
+  id: string;
   imgSrc: string;
+  name: string;
   transmission: string;
   type: string;
   year: number;
 }
 
-// mapped car obj for UI
+// mapped car obj
 export interface Car {
+  brandId: number;
+  id: string;
   brand: string;
+  model: string;
   colors: Array<string>;
   engineCapacity: number;
-  id: number;
-  model: string;
   imgSrc: string;
   transmission: string;
   type: string;
