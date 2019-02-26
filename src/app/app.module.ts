@@ -16,6 +16,8 @@ import { FilterCarsComponent } from './components/cars/filter-cars/filter-cars.c
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './shared/interceptor/http-error.interceptor';
 
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +33,8 @@ import { HttpErrorInterceptor } from './shared/interceptor/http-error.intercepto
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
+    InfiniteScrollModule
   ],
   entryComponents: [OperationDialogComponent],
   providers: [

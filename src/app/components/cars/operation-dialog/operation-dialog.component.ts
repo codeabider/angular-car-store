@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Car } from '../../../interface/car';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 
@@ -15,21 +15,9 @@ export class OperationDialogComponent implements OnInit {
   transmissionType: string[];
   carType: string[];
 
-  snackMessage = {
-    success: {
-      message: 'Record updated Successfully!!!',
-      action: 'Cool'
-    },
-    remove: {
-      message: 'Deleted Permanantly!!!',
-      action: 'Cool'
-    }
-  };
-
   constructor(
     public dialogRef: MatDialogRef<OperationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public carData: any,
-    public snackBar: MatSnackBar,
     private _formBuilder: FormBuilder) {}
 
   ngOnInit() {
@@ -100,14 +88,10 @@ export class OperationDialogComponent implements OnInit {
     if (this.carData.remove) {
       this.dialogRef.close(action);
     }
-    if (action) {
-      this.showSuccessSnack(this.snackMessage.remove.message, this.snackMessage.remove.action);
-    }
   }
 
   updateData(): void {
     this.dialogRef.close(this.carDetailsForm.value);
-    this.showSuccessSnack(this.snackMessage.success.message, this.snackMessage.success.action);
   }
 
   resetData(fillDefault?: string): void {
@@ -129,11 +113,5 @@ export class OperationDialogComponent implements OnInit {
     if (errors) {
       return errors.required ? 'This field is required!' : '';
     }
-  }
-
-  showSuccessSnack(message: string, action: string): void {
-    this.snackBar.open(message, action, {
-      duration: 3000,
-    });
   }
 }

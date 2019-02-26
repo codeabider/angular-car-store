@@ -1,4 +1,11 @@
-<div class="car-list-container" *ngIf="filteredCarsList; else loader">
+<div
+  class="car-list-container"
+  *ngIf="filteredCarsList; else loader"
+  infiniteScroll
+  [infiniteScrollDistance]="1"
+  [infiniteScrollDisabled]="filterApplied && true"
+  (scrolled)="onScroll()">
+  <!-- note: unused infinite scroll -->
   <div class="car-filter">
     <app-filter-cars
       [allCars]="carsToShow"
@@ -25,8 +32,11 @@
         mat-raised-button
         color="accent"
         type="button"
-        *ngIf="!loadingMore; else loading"
+        *ngIf="!loadingMore && carsToShow.length < carsList.length; else loading"
         (click)="loadData(true)">Load More</button>
+      <!-- <div class="loader load-more" *ngIf="loadingMore">
+        <mat-spinner color="accent" [diameter]="36"></mat-spinner>
+      </div> -->
     </div>
 
     <div class="button-container">
@@ -55,7 +65,7 @@
 </ng-template>
 
 <ng-template #loading>
-  <div class="loader load-more">
+  <div class="loader load-more" *ngIf="!filterApplied && carsToShow.length < carsList.length">
     <mat-spinner color="accent" [diameter]="36"></mat-spinner>
   </div>
 </ng-template>

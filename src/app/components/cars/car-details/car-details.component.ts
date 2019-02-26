@@ -49,7 +49,7 @@ export class CarDetailsComponent implements OnInit {
       this.isRouted = true; // unutilized as of now - use in navigating home w/o service call
 
       this._carsService.getCarData().subscribe((cars: Config) => {
-        const mappedCarsObj = this._carsService.getMappedObj(cars.data);
+        const mappedCarsObj = this._carsService.getMappedObj(cars.data);  // mappedObj with complete data
         const regex = new RegExp(`^${carFullName}$`, 'ig');
         // console.log(mappedCarsObj);
         mappedCarsObj.filter((car: Car) => {

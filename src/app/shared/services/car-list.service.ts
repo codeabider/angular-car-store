@@ -7,40 +7,65 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CarListService {
-  url = 'assets/data/cars.json';  // local --> use for deployement
+  /* note: in order to use json-server, we need to congigure angular Proxy,
+    so that our data is served from localhost:4200/. localhost requests/ responses are blocked by CORS
+    use to get, post, delete data from mock API */
+  url = {
+    localURL: 'assets/data/cars.json',  // local --> use for deployement
+    getURL: '/db',
+    setURL: '/data'
+  };
 
-  // note: in order to use json-server, we need to congifgure angular Proxy,
-  // so that our data is served from localhost:4200/. localhost requests/ responses are blocked by CORS
-  // use to get, post, delete data from mock API
-  // url = '/db';
+  useLocal = false;
 
   constructor(private _http: HttpClient) { }
 
-
   // note: instead of piping each service request, using interceptors (ng 4.3.1+) to handle all errors globally
   getCarData(): Observable<Config> {
-    return this._http.get<Config>(this.url);
+    if (!this.useLocal) {
+      return this._http.get<Config>(this.url.getURL);
+    } else {
+      return this._http.get<Config>(this.url.localURL);
+    }
   }
 
   // POST pushes to the array -> using in case when brand new car is added
   addCarData(newCar: RawCar): Observable<RawCar> {
-    console.log('posting: ', newCar);
-    return this._http.post<RawCar>('/data', newCar);
+    if (!this.useLocal) {
+      return this._http.post<RawCar>(this.url.setURL, newCar);
+    } else {
+      console.log('operation not possible with dummy local JSON!');
+    }
   }
 
-  // deleteCarData(carToDelete: RawCar): Observable<RawCar> {
-  //   console.log('posting: ', carToDelete);
-  //   return this._http.delete<RawCar>(`/data`, carToDelete);
-  // }
+  /* PATCH in case of new model added to existing brand
+    OR existing car model editted
+    OR model deleted from brands */
+  updateCarData(car: RawCar, carToUpdateIndex: number): Observable<RawCar> {
+    if (!this.useLocal) {
+      return this._http.patch<RawCar>(`${this.url.setURL}/${carToUpdateIndex}`, car);
+    } else {
+      console.log('operation not possible with dummy local JSON!');
+    }
+  }
 
-  // pagination limits, searches, sorts, etc can be done using mock API provided by json-server
-  // following local json approach here, to map received data into usable obj
-  // and performing all operations on that obj
+  // DELETE the whole brand if no models remain after delete ops
+  removeCarData(carToRemoveIndex: number): Observable<RawCar> {
+    if (!this.useLocal) {
+      return this._http.delete<RawCar>(`${this.url.setURL}/${carToRemoveIndex}`);
+    } else {
+      console.log('operation not possible with dummy local JSON!');
+    }
+  }
+
+  /* pagination limits, searches, sorts, etc can be done using mock API provided by json-server
+    following local json approach here, to map received data into usable obj
+    and performing all operations on that obj */
   getMappedObj(cars: RawCar[]): Car[] {  // implement lazy load
     const carsList: Car[] = [];
 
-    cars.forEach((car: RawCar, carIndex: number) => {
-      car.models.forEach((model: CarModel, modelIndex: number) => {
+    cars.forEach((car: RawCar) => {
+      car.models.forEach((model: CarModel) => {
         carsList.push({
           brandId: car.id,
           id: model.id,
@@ -57,23 +82,6 @@ export class CarListService {
     });
 
     return carsList;
-  }
-
-  getRawObj(mappedCar: Car): RawCar {
-    return {
-      brand: mappedCar.brand,
-      id: mappedCar.brandId,
-      models: [{
-        colors: mappedCar.colors,
-        engineCapacity: mappedCar.engineCapacity,
-        id: mappedCar.id,
-        imgSrc: mappedCar.imgSrc,
-        name: mappedCar.model,
-        transmission: mappedCar.transmission,
-        type: mappedCar.type,
-        year: mappedCar.year
-      }]
-    };
   }
 
   getUniqueSpecs(cars: Car[]): any {
